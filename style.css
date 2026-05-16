@@ -14,27 +14,37 @@ body {
 /* CABECERA */
 
 .header {
-    background-color: #000000; /* Fondo negro para que el logo se integre */
-    border-bottom: 1px solid #333;
-    padding: 10px 20px;
+    background-color: #000000; /* Fondo negro para tu logo */
+    border-bottom: 1px solid #222;
+    padding: 20px 40px; /* Aumentamos el espacio arriba/abajo y a los costados */
     position: sticky;
     top: 0;
     z-index: 100;
 }
 
+.header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .logo-img {
-    height: 60px; /* Ajustamos el tamaño del logo */
+    height: 110px; /* Duplicamos la altura para que el logo cuadrado se lea perfecto */
+    width: auto;   /* Mantiene la proporción para que no se deforme */
     display: block;
 }
 
 .btn-nav {
     text-decoration: none;
-    color: #ffffff; /* Texto blanco para que resalte en el fondo negro */
+    color: #ffffff; /* Texto blanco */
     font-size: 0.95rem;
     font-weight: 500;
     border: 1px solid #ffffff;
-    padding: 8px 16px;
+    padding: 10px 20px; /* Un pelín más grande el botón para que acompañe el diseño */
     border-radius: 6px;
+    margin-left: 20px;  /* Empuja el botón un poquito hacia la izquierda, despegándolo del borde */
     transition: background 0.2s;
 }
 

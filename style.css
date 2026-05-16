@@ -12,44 +12,36 @@ body {
 }
 
 /* CABECERA */
+/* CABECERA */
 .header {
-    background-color: #ffffff;
-    border-bottom: 1px solid #e9ecef;
-    padding: 15px 20px;
+    background-color: #000000; /* Fondo negro para que el logo se integre */
+    border-bottom: 1px solid #333;
+    padding: 10px 20px;
     position: sticky;
     top: 0;
     z-index: 100;
 }
 
-.header-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.logo {
-    font-size: 1.5rem;
-    font-weight: 700;
-    letter-spacing: -0.5px;
+.logo-img {
+    height: 60px; /* Ajustamos el tamaño del logo */
+    display: block;
 }
 
 .btn-nav {
     text-decoration: none;
-    color: #495057;
+    color: #ffffff; /* Texto blanco para que resalte en el fondo negro */
     font-size: 0.95rem;
     font-weight: 500;
-    border: 1px solid #ced4da;
+    border: 1px solid #ffffff;
     padding: 8px 16px;
     border-radius: 6px;
     transition: background 0.2s;
 }
 
 .btn-nav:hover {
-    background-color: #f1f3f5;
+    background-color: #ffffff;
+    color: #000000;
 }
-
 /* CONTENEDOR PRINCIPAL */
 .catalogo-container {
     max-width: 1200px;

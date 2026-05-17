@@ -24,16 +24,21 @@
 
         .productos-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
 
-        .producto-card { background: #fffcf7; border-radius: 16px; overflow: hidden; border: 1px solid #ddd0bb; transition: 0.3s; box-shadow: 0 3px 12px rgba(0,0,0,0.06); }
+        .producto-card { background: #fffcf7; border-radius: 16px; overflow: hidden; border: 1px solid #ddd0bb; transition: 0.3s; box-shadow: 0 3px 12px rgba(0,0,0,0.06); display: flex; flex-direction: column; justify-content: space-between; }
         .producto-card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(74,124,47,0.15); border-color: #4a7c2f; }
 
         .producto-imagen img { width: 100%; height: 230px; object-fit: cover; }
 
-        .producto-info { padding: 22px; }
-        .badge { display: inline-block; background: #e8f0dc; color: #2d5016; font-size: 0.75rem; font-weight: bold; padding: 4px 12px; border-radius: 20px; margin-bottom: 12px; font-family: Arial, sans-serif; border: 1px solid #b7e4c7; }
+        .producto-info { padding: 22px; flex-grow: 1; display: flex; flex-direction: column; }
+        .badge { display: inline-block; align-self: flex-start; background: #e8f0dc; color: #2d5016; font-size: 0.75rem; font-weight: bold; padding: 4px 12px; border-radius: 20px; margin-bottom: 12px; font-family: Arial, sans-serif; border: 1px solid #b7e4c7; }
         .producto-info h3 { color: #2d5016; font-size: 1.1rem; margin-bottom: 10px; line-height: 1.4; }
-        .descripcion { color: #6b5744; font-size: 0.9rem; line-height: 1.6; margin-bottom: 18px; font-family: Arial, sans-serif; }
-        .precio { font-size: 1.5rem; font-weight: bold; color: #2d5016; margin-bottom: 18px; font-family: Arial, sans-serif; }
+        
+        .descripcion { color: #6b5744; font-size: 0.9rem; line-height: 1.5; margin-bottom: 18px; font-family: Arial, sans-serif; flex-grow: 1; }
+        .descripcion ul { list-style-type: none; margin: 8px 0; padding-left: 0; }
+        .descripcion li { font-size: 0.85rem; color: #554331; margin-bottom: 3px; }
+        .descripcion .titulo-lista { font-weight: bold; color: #2d5016; margin-top: 8px; display: block; }
+
+        .precio { font-size: 1.5rem; font-weight: bold; color: #2d5016; margin-bottom: 18px; font-family: Arial, sans-serif; margin-top: auto; }
         .precio.consultar { color: #4a7c2f; font-size: 1rem; font-style: italic; }
 
         .btn-comprar { display: block; text-align: center; background: #4a7c2f; color: white; padding: 13px; border-radius: 10px; text-decoration: none; font-weight: bold; font-family: Arial, sans-serif; transition: 0.2s; letter-spacing: 0.5px; }
@@ -87,7 +92,35 @@
                     <h3>Camita Macramé Premium (50x80 cm)</h3>
                     <p class="descripcion">Estructura robusta en pino cepillado con patas removibles mediante tornillos mariposa. Tejido artesanal en macramé de alta resistencia. Ideal para perros y gatos pequeños y medianos. Hecha a mano en Junín.</p>
                     <p class="precio">$65.000</p>
-                    <a href="#" target="_blank" class="btn-comprar">💳 Comprar por Mercado Pago</a>
+                    <a href="https://mpago.la/274cvM5" target="_blank" class="btn-comprar">💳 Comprar por Mercado Pago</a>
+                </div>
+            </article>
+
+            <article class="producto-card">
+                <div class="producto-imagen">
+                    <img src="camita.jpg" alt="Cucha Artesanal Macramé Hamaca Perros Gatos Madera Pequeña">
+                </div>
+                <div class="producto-info">
+                    <span class="badge">🐾 Mascotas</span>
+                    <h3>Camita Macramé Premium (66x50x39 cm)</h3>
+                    <div class="descripcion">
+                        <span class="titulo-lista">MATERIALES:</span>
+                        <ul>
+                            <li>• Estructura de madera natural resistente</li>
+                            <li>• Tejido artesanal en macramé con flecos decorativos</li>
+                            <li>• Materiales 100% seguros y libres de tóxicos</li>
+                        </ul>
+                        <span class="titulo-lista">CARACTERÍSTICAS:</span>
+                        <ul>
+                            <li>• Tamaño ideal para mascotas pequeñas y medianas</li>
+                            <li>• Colores disponibles: Ocre y multicolor</li>
+                            <li>• Diseño liviano, fácil de armar, desarmar y limpiar</li>
+                        </ul>
+                        <span class="titulo-lista">HECHO A MANO:</span>
+                        <p style="font-size: 0.85rem; font-style: italic; margin-top: 4px;">Cada pieza es única y elaborada artesanalmente en Junín. No es un producto de fábrica; es una pieza con dedicación y detalle en cada nudo.</p>
+                    </div>
+                    <p class="precio">$60.000</p>
+                    <a href="https://mpago.la/1uVSUS4" target="_blank" class="btn-comprar">💳 Comprar por Mercado Pago</a>
                 </div>
             </article>
 
@@ -98,7 +131,7 @@
                 <div class="producto-info">
                     <span class="badge">⚡ Electrónica</span>
                     <h3>Servicio Técnico de Placas Electrónicas</h3>
-                    <p class="descripcion">Diagnóstico y reparación especializada de placas de lavarropas, heladeras y línea blanca. Recibimos envíos por comisionista desde toda la región. Trabajo garantizado.</p>
+                    <p class="descripcion">Diagnóstico y reparación especializada de placas de lavarropas, heladeras y línea blanca. Recibimos envíos por comisionista desde toda la región. Trabajo garantizado con la seriedad de siempre.</p>
                     <p class="precio consultar">Consultar presupuesto</p>
                     <a href="https://wa.me/5492364316208?text=Hola%20Eduardo%2C%20quiero%20consultar%20por%20reparación%20de%20placa" target="_blank" class="btn-consultar">💬 Consultar por WhatsApp</a>
                 </div>

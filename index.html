@@ -8,9 +8,13 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: Georgia, serif; background: #f5f0e8; color: #3a2e1e; }
 
-        .header { background: #fff8f0; border-bottom: 3px solid #4a7c2f; padding: 15px 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+        /* Ajuste en el header para asegurar visibilidad */
+        .header { background: #fff8f0; border-bottom: 3px solid #4a7c2f; padding: 15px 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); position: relative; z-index: 10; }
         .header-container { display: flex; align-items: center; justify-content: space-between; max-width: 960px; margin: auto; }
-        .logo-img { width: 60px; height: 60px; border-radius: 10px; }
+        
+        /* Forzamos a la imagen a comportarse como un bloque visible */
+        .logo-img { width: 60px; height: 60px; border-radius: 10px; display: block; object-fit: cover; }
+        
         .btn-nav { background: #4a7c2f; color: white; padding: 10px 18px; border-radius: 8px; text-decoration: none; font-family: Arial, sans-serif; font-weight: bold; transition: 0.2s; }
         .btn-nav:hover { background: #2d5016; }
 
@@ -58,7 +62,7 @@
 
     <header class="header">
         <div class="header-container">
-            <a href="index.html">
+            <a href="index.html" style="display: block;">
                 <img src="Icono-512.png" alt="Junín Conecta Logo" class="logo-img">
             </a>
             <nav>

@@ -3,48 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tienda Oficial</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Tienda | Junín Conecta</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Georgia, serif; background: #f5f0e8; color: #3a2e1e; }
+
+        .header { background: #fff8f0; border-bottom: 3px solid #4a7c2f; padding: 15px 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+        .header-container { display: flex; align-items: center; justify-content: space-between; max-width: 960px; margin: auto; }
+        .logo-img { width: 60px; height: 60px; border-radius: 10px; }
+        .btn-nav { background: #4a7c2f; color: white; padding: 10px 18px; border-radius: 8px; text-decoration: none; font-family: Arial, sans-serif; font-weight: bold; transition: 0.2s; }
+        .btn-nav:hover { background: #2d5016; }
+
+        .hero { text-align: center; padding: 50px 20px 30px; background: linear-gradient(180deg, #fff8f0 0%, #f5f0e8 100%); border-bottom: 1px solid #ddd0bb; }
+        .hero h1 { color: #2d5016; font-size: 2.2rem; margin-bottom: 10px; font-weight: normal; letter-spacing: 1px; }
+        .hero p { color: #7c5c3e; font-size: 1rem; font-style: italic; }
+        .hero .linea { width: 80px; height: 3px; background: #4a7c2f; margin: 15px auto; border-radius: 2px; }
+
+        .catalogo-container { max-width: 960px; margin: auto; padding: 40px 20px; }
+        .seccion-titulo { color: #2d5016; text-align: center; margin-bottom: 35px; font-size: 1.5rem; font-weight: normal; letter-spacing: 1px; }
+
+        .productos-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+
+        .producto-card { background: #fffcf7; border-radius: 16px; overflow: hidden; border: 1px solid #ddd0bb; transition: 0.3s; box-shadow: 0 3px 12px rgba(0,0,0,0.06); }
+        .producto-card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(74,124,47,0.15); border-color: #4a7c2f; }
+
+        .producto-imagen img { width: 100%; height: 230px; object-fit: cover; }
+
+        .producto-info { padding: 22px; }
+        .badge { display: inline-block; background: #e8f0dc; color: #2d5016; font-size: 0.75rem; font-weight: bold; padding: 4px 12px; border-radius: 20px; margin-bottom: 12px; font-family: Arial, sans-serif; border: 1px solid #b7e4c7; }
+        .producto-info h3 { color: #2d5016; font-size: 1.1rem; margin-bottom: 10px; line-height: 1.4; }
+        .descripcion { color: #6b5744; font-size: 0.9rem; line-height: 1.6; margin-bottom: 18px; font-family: Arial, sans-serif; }
+        .precio { font-size: 1.5rem; font-weight: bold; color: #2d5016; margin-bottom: 18px; font-family: Arial, sans-serif; }
+        .precio.consultar { color: #4a7c2f; font-size: 1rem; font-style: italic; }
+
+        .btn-comprar { display: block; text-align: center; background: #4a7c2f; color: white; padding: 13px; border-radius: 10px; text-decoration: none; font-weight: bold; font-family: Arial, sans-serif; transition: 0.2s; letter-spacing: 0.5px; }
+        .btn-comprar:hover { background: #2d5016; }
+        .btn-consultar { display: block; text-align: center; background: #25d366; color: white; padding: 13px; border-radius: 10px; text-decoration: none; font-weight: bold; font-family: Arial, sans-serif; transition: 0.2s; }
+        .btn-consultar:hover { background: #1da851; }
+
+        .banner-envio { background: #fff8f0; border: 1px solid #ddd0bb; border-radius: 12px; padding: 20px; text-align: center; margin-bottom: 35px; }
+        .banner-envio p { color: #4a7c2f; font-family: Arial, sans-serif; font-size: 0.95rem; }
+        .banner-envio span { font-weight: bold; }
+
+        .footer { text-align: center; padding: 30px; color: #9b8574; border-top: 1px solid #ddd0bb; margin-top: 40px; font-family: Arial, sans-serif; font-size: 0.9rem; background: #fff8f0; }
+        .footer a { color: #4a7c2f; text-decoration: none; }
+    </style>
 </head>
 <body>
 
     <header class="header">
         <div class="header-container">
-           <a href="index.html" class="logo-link">
-    <img src="icono-512.png" alt="Junín Conecta Logo" class="logo-img">
-</a>
-            <nav class="nav">
-                <a href="https://eduardoalbertofigueroa-rgb.github.io/radios-antojo-verde/" class="btn-nav">Volver a Junín Conecta</a>
+            <a href="index.html">
+                <img src="icono-512.png" alt="Junín Conecta Logo" class="logo-img">
+            </a>
+            <nav>
+                <a href="https://juninconecta.com.ar" class="btn-nav">📻 Volver a Junín Conecta</a>
             </nav>
         </div>
     </header>
 
+    <div class="hero">
+        <h1>🌿 Tienda Junín Conecta</h1>
+        <div class="linea"></div>
+        <p>Productos artesanales y servicios técnicos — hechos con dedicación en Junín, Buenos Aires</p>
+    </div>
+
     <main class="catalogo-container">
-        <h2 class="seccion-titulo">Productos y Servicios</h2>
-        
+
+        <div class="banner-envio">
+            <p>🚚 <span>Envío a todo el país</span> por comisionista · 📦 Productos embalados con cuidado · 💬 Consultas por WhatsApp</p>
+        </div>
+
+        <h2 class="seccion-titulo">✦ Productos y Servicios ✦</h2>
+
         <div class="productos-grid">
-            
+
             <article class="producto-card">
                 <div class="producto-imagen">
-                    <img src="https://via.placeholder.com/400x300" alt="Camita de Macramé">
+                    <img src="camita.jpg" alt="Camita de Macramé artesanal">
                 </div>
                 <div class="producto-info">
+                    <span class="badge">🐾 Mascotas</span>
                     <h3>Camita Macramé Premium (50x80 cm)</h3>
-                    <p class="descripcion">Estructura robusta en pino cepillado con patas removibles mediante tornillos coche. Tejido artesanal en macramé de alta resistencia.</p>
-                    <p class="precio">$0.000</p>
-                    <a href="#" target="_blank" class="btn-comprar">Comprar por Mercado Pago</a>
+                    <p class="descripcion">Estructura robusta en pino cepillado con patas removibles mediante tornillos mariposa. Tejido artesanal en macramé de alta resistencia. Ideal para perros y gatos pequeños y medianos. Hecha a mano en Junín.</p>
+                    <p class="precio">$65.000</p>
+                    <a href="#" target="_blank" class="btn-comprar">💳 Comprar por Mercado Pago</a>
                 </div>
             </article>
 
             <article class="producto-card">
                 <div class="producto-imagen">
-                    <img src="https://via.placeholder.com/400x300" alt="Reparación de Placas">
+                    <img src="placas.jpg" alt="Reparación de Placas Electrónicas">
                 </div>
                 <div class="producto-info">
+                    <span class="badge">⚡ Electrónica</span>
                     <h3>Servicio Técnico de Placas Electrónicas</h3>
-                    <p class="descripcion">Diagnóstico y reparación especializada de placas de lavarropas, heladeras y línea blanca. Trabajo garantizado.</p>
-                    <p class="precio">Consultar Presupuesto</p>
-                    <a href="https://wa.me/tu-numero-aca" target="_blank" class="btn-consultar">Consultar por WhatsApp</a>
+                    <p class="descripcion">Diagnóstico y reparación especializada de placas de lavarropas, heladeras y línea blanca. Recibimos envíos por comisionista desde toda la región. Trabajo garantizado.</p>
+                    <p class="precio consultar">Consultar presupuesto</p>
+                    <a href="https://wa.me/5492364316208?text=Hola%20Eduardo%2C%20quiero%20consultar%20por%20reparación%20de%20placa" target="_blank" class="btn-consultar">💬 Consultar por WhatsApp</a>
                 </div>
             </article>
 
@@ -52,7 +108,7 @@
     </main>
 
     <footer class="footer">
-        <p>&copy; 2026 - Diseñado con código propio</p>
+        <p>© 2026 <a href="https://juninconecta.com.ar">Junín Conecta</a> — Hecho con dedicación en Junín, Buenos Aires 🌿</p>
     </footer>
 
 </body>

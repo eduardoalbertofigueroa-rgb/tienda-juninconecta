@@ -4,164 +4,676 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tienda | Junín Conecta</title>
+    <meta name="description" content="Productos artesanales y servicios técnicos hechos con dedicación en Junín, Buenos Aires.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Caveat:wght@600&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --beige: #f5f0e8;
+            --beige-light: #fff8f0;
+            --beige-card: #fffcf7;
+            --verde: #2d5016;
+            --verde-medio: #4a7c2f;
+            --verde-claro: #e8f0dc;
+            --verde-borde: #b7e4c7;
+            --tierra: #7c5c3e;
+            --tierra-oscuro: #3a2e1e;
+            --tierra-medio: #6b5744;
+            --borde: #ddd0bb;
+            --shadow: rgba(74, 124, 47, 0.12);
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: Georgia, serif; background: #f5f0e8; color: #3a2e1e; }
+        html, body { overflow-x: hidden; }
 
-        /* Ajuste en el header para asegurar visibilidad */
-        .header { background: #fff8f0; border-bottom: 3px solid #4a7c2f; padding: 15px 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); position: relative; z-index: 10; }
-        .header-container { display: flex; align-items: center; justify-content: space-between; max-width: 960px; margin: auto; }
-        
-        /* Forzamos a la imagen a comportarse como un bloque visible */
-        .logo-img { width: 60px; height: 60px; border-radius: 10px; display: block; object-fit: cover; }
-        
-        .btn-nav { background: #4a7c2f; color: white; padding: 10px 18px; border-radius: 8px; text-decoration: none; font-family: Arial, sans-serif; font-weight: bold; transition: 0.2s; }
-        .btn-nav:hover { background: #2d5016; }
+        body {
+            font-family: 'Bricolage Grotesque', Georgia, serif;
+            background: var(--beige);
+            color: var(--tierra-oscuro);
+            position: relative;
+        }
 
-        .hero { text-align: center; padding: 50px 20px 30px; background: linear-gradient(180deg, #fff8f0 0%, #f5f0e8 100%); border-bottom: 1px solid #ddd0bb; }
-        .hero h1 { color: #2d5016; font-size: 2.2rem; margin-bottom: 10px; font-weight: normal; letter-spacing: 1px; }
-        .hero p { color: #7c5c3e; font-size: 1rem; font-style: italic; }
-        .hero .linea { width: 80px; height: 3px; background: #4a7c2f; margin: 15px auto; border-radius: 2px; }
+        /* Patrón de fondo sutil */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40'%3E%3Ccircle cx='20' cy='20' r='1' fill='%234a7c2f' opacity='0.06'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 0;
+        }
 
-        .catalogo-container { max-width: 960px; margin: auto; padding: 40px 20px; }
-        .seccion-titulo { color: #2d5016; text-align: center; margin-bottom: 35px; font-size: 1.5rem; font-weight: normal; letter-spacing: 1px; }
+        /* ====== HEADER ====== */
+        .header {
+            background: var(--beige-light);
+            border-bottom: 3px solid var(--verde-medio);
+            padding: 14px 20px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
 
-        .productos-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+        .header-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 960px;
+            margin: auto;
+            gap: 12px;
+        }
 
-        .producto-card { background: #fffcf7; border-radius: 16px; overflow: hidden; border: 1px solid #ddd0bb; transition: 0.3s; box-shadow: 0 3px 12px rgba(0,0,0,0.06); display: flex; flex-direction: column; justify-content: space-between; }
-        .producto-card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(74,124,47,0.15); border-color: #4a7c2f; }
+        .logo-wrap { display: flex; align-items: center; gap: 12px; }
 
-        .producto-imagen img { width: 100%; height: 230px; object-fit: cover; }
+        .logo-img {
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
+            display: block;
+            object-fit: cover;
+        }
 
-        .producto-info { padding: 22px; flex-grow: 1; display: flex; flex-direction: column; }
-        .badge { display: inline-block; align-self: flex-start; background: #e8f0dc; color: #2d5016; font-size: 0.75rem; font-weight: bold; padding: 4px 12px; border-radius: 20px; margin-bottom: 12px; font-family: Arial, sans-serif; border: 1px solid #b7e4c7; }
-        .producto-info h3 { color: #2d5016; font-size: 1.1rem; margin-bottom: 10px; line-height: 1.4; }
-        
-        .descripcion { color: #6b5744; font-size: 0.9rem; line-height: 1.5; margin-bottom: 18px; font-family: Arial, sans-serif; flex-grow: 1; }
-        .descripcion ul { list-style-type: none; margin: 8px 0; padding-left: 0; }
-        .descripcion li { font-size: 0.85rem; color: #554331; margin-bottom: 3px; }
-        .descripcion .titulo-lista { font-weight: bold; color: #2d5016; margin-top: 8px; display: block; }
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
 
-        .precio { font-size: 1.5rem; font-weight: bold; color: #2d5016; margin-bottom: 18px; font-family: Arial, sans-serif; margin-top: auto; }
-        .precio.consultar { color: #4a7c2f; font-size: 1rem; font-style: italic; }
+        .logo-nombre {
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--verde);
+            line-height: 1;
+        }
 
-        .btn-comprar { display: block; text-align: center; background: #4a7c2f; color: white; padding: 13px; border-radius: 10px; text-decoration: none; font-weight: bold; font-family: Arial, sans-serif; transition: 0.2s; letter-spacing: 0.5px; }
-        .btn-comprar:hover { background: #2d5016; }
-        .btn-consultar { display: block; text-align: center; background: #25d366; color: white; padding: 13px; border-radius: 10px; text-decoration: none; font-weight: bold; font-family: Arial, sans-serif; transition: 0.2s; }
-        .btn-consultar:hover { background: #1da851; }
+        .logo-tagline {
+            font-family: 'Caveat', cursive;
+            font-size: 13px;
+            color: var(--verde-medio);
+            margin-top: 2px;
+        }
 
-        .banner-envio { background: #fff8f0; border: 1px solid #ddd0bb; border-radius: 12px; padding: 20px; text-align: center; margin-bottom: 35px; }
-        .banner-envio p { color: #4a7c2f; font-family: Arial, sans-serif; font-size: 0.95rem; }
-        .banner-envio span { font-weight: bold; }
+        .btn-nav {
+            background: var(--verde-medio);
+            color: white;
+            padding: 10px 18px;
+            border-radius: 100px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 14px;
+            transition: 0.2s;
+            white-space: nowrap;
+        }
 
-        .footer { text-align: center; padding: 30px; color: #9b8574; border-top: 1px solid #ddd0bb; margin-top: 40px; font-family: Arial, sans-serif; font-size: 0.9rem; background: #fff8f0; }
-        .footer a { color: #4a7c2f; text-decoration: none; }
+        .btn-nav:hover { background: var(--verde); transform: scale(1.03); }
+
+        /* ====== HERO ====== */
+        .hero {
+            text-align: center;
+            padding: 56px 20px 36px;
+            background: linear-gradient(180deg, var(--beige-light) 0%, var(--beige) 100%);
+            border-bottom: 1px solid var(--borde);
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-eyebrow {
+            display: inline-block;
+            background: var(--verde-claro);
+            color: var(--verde);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            padding: 5px 14px;
+            border-radius: 100px;
+            border: 1px solid var(--verde-borde);
+            margin-bottom: 16px;
+        }
+
+        .hero h1 {
+            color: var(--verde);
+            font-size: clamp(1.8rem, 5vw, 2.8rem);
+            margin-bottom: 10px;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+        }
+
+        .hero h1 .accent {
+            font-family: 'Caveat', cursive;
+            font-size: 1.2em;
+            color: var(--verde-medio);
+        }
+
+        .hero p {
+            color: var(--tierra);
+            font-size: 1rem;
+            font-style: italic;
+            max-width: 480px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .hero .linea {
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--verde-medio), var(--verde-borde));
+            margin: 18px auto;
+            border-radius: 2px;
+        }
+
+        /* ====== BANNER ENVIO ====== */
+        .banner-envio {
+            background: var(--beige-light);
+            border: 1px solid var(--borde);
+            border-radius: 14px;
+            padding: 16px 20px;
+            text-align: center;
+            margin-bottom: 36px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .banner-envio p {
+            color: var(--verde-medio);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .banner-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 600;
+        }
+
+        .banner-sep { color: var(--borde); font-size: 1.2rem; }
+
+        /* ====== CATALOGO ====== */
+        .catalogo-container {
+            max-width: 960px;
+            margin: auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .seccion-titulo {
+            color: var(--verde);
+            text-align: center;
+            margin-bottom: 36px;
+            font-size: 1.4rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .seccion-titulo::before,
+        .seccion-titulo::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--borde);
+            max-width: 120px;
+        }
+
+        /* ====== FILTROS ====== */
+        .filtros {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+        }
+
+        .filtro-btn {
+            background: var(--beige-light);
+            border: 1px solid var(--borde);
+            color: var(--tierra);
+            padding: 8px 18px;
+            border-radius: 100px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            font-family: inherit;
+        }
+
+        .filtro-btn:hover,
+        .filtro-btn.active {
+            background: var(--verde-medio);
+            color: white;
+            border-color: var(--verde-medio);
+        }
+
+        /* ====== PRODUCTOS GRID ====== */
+        .productos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 28px;
+        }
+
+        .producto-card {
+            background: var(--beige-card);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid var(--borde);
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .producto-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 30px var(--shadow);
+            border-color: var(--verde-medio);
+        }
+
+        .producto-imagen {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .producto-imagen img {
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.4s ease;
+        }
+
+        .producto-card:hover .producto-imagen img {
+            transform: scale(1.04);
+        }
+
+        .producto-imagen .img-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, transparent 60%, rgba(45, 80, 22, 0.15));
+            pointer-events: none;
+        }
+
+        /* ====== INFO CARD ====== */
+        .producto-info {
+            padding: 22px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            gap: 8px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: var(--verde-claro);
+            color: var(--verde);
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 100px;
+            border: 1px solid var(--verde-borde);
+            white-space: nowrap;
+        }
+
+        .producto-info h3 {
+            color: var(--verde);
+            font-size: 1.05rem;
+            line-height: 1.35;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .descripcion {
+            color: var(--tierra-medio);
+            font-size: 0.88rem;
+            line-height: 1.55;
+            margin-bottom: 16px;
+            flex-grow: 1;
+        }
+
+        .descripcion ul {
+            list-style: none;
+            margin: 6px 0 10px;
+            padding: 0;
+        }
+
+        .descripcion li {
+            font-size: 0.84rem;
+            color: #554331;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+        }
+
+        .descripcion li::before {
+            content: '✓';
+            color: var(--verde-medio);
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .titulo-lista {
+            font-weight: 700;
+            color: var(--verde);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-top: 10px;
+            display: block;
+        }
+
+        .hecho-a-mano {
+            background: var(--verde-claro);
+            border-left: 3px solid var(--verde-medio);
+            border-radius: 0 8px 8px 0;
+            padding: 10px 14px;
+            font-size: 0.82rem;
+            font-style: italic;
+            color: var(--verde);
+            margin-top: 10px;
+            line-height: 1.5;
+        }
+
+        /* ====== PRECIO Y BOTONES ====== */
+        .precio-accion { margin-top: auto; padding-top: 16px; }
+
+        .precio {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--verde);
+            margin-bottom: 14px;
+            letter-spacing: -0.02em;
+        }
+
+        .precio small {
+            font-size: 0.85rem;
+            color: var(--tierra);
+            font-weight: 400;
+            margin-left: 4px;
+        }
+
+        .precio.consultar {
+            color: var(--verde-medio);
+            font-size: 1rem;
+            font-style: italic;
+            font-weight: 600;
+        }
+
+        .btn-comprar {
+            display: block;
+            text-align: center;
+            background: var(--verde-medio);
+            color: white;
+            padding: 14px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 14px;
+            transition: all 0.2s;
+            letter-spacing: 0.3px;
+        }
+
+        .btn-comprar:hover {
+            background: var(--verde);
+            transform: scale(1.02);
+        }
+
+        .btn-consultar {
+            display: block;
+            text-align: center;
+            background: #25d366;
+            color: white;
+            padding: 14px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .btn-consultar:hover {
+            background: #1da851;
+            transform: scale(1.02);
+        }
+
+        /* ====== FOOTER ====== */
+        .footer {
+            text-align: center;
+            padding: 32px 20px;
+            color: #9b8574;
+            border-top: 1px solid var(--borde);
+            margin-top: 40px;
+            font-size: 0.9rem;
+            background: var(--beige-light);
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer a { color: var(--verde-medio); text-decoration: none; font-weight: 600; }
+        .footer a:hover { color: var(--verde); }
+
+        /* ====== RESPONSIVE ====== */
+        @media (max-width: 600px) {
+            .header-container { gap: 8px; }
+            .logo-tagline { display: none; }
+            .btn-nav { padding: 9px 14px; font-size: 13px; }
+            .hero { padding: 40px 16px 28px; }
+            .catalogo-container { padding: 28px 16px; }
+            .productos-grid { grid-template-columns: 1fr; gap: 20px; }
+            .producto-imagen img { height: 200px; }
+            .banner-envio p { font-size: 0.82rem; }
+            .banner-sep { display: none; }
+        }
+
+        @media (min-width: 601px) and (max-width: 900px) {
+            .productos-grid { grid-template-columns: repeat(2, 1fr); }
+        }
     </style>
 </head>
 <body>
 
+    <!-- HEADER -->
     <header class="header">
         <div class="header-container">
-            <a href="index.html" style="display: block;">
-                <img src="icono-512.png" alt="Junín Conecta Logo" class="logo-img">
+            <a href="index.html" style="display:block;">
+                <div class="logo-wrap">
+                    <img src="icono-512.png" alt="Junín Conecta Logo" class="logo-img">
+                    <div class="logo-text">
+                        <span class="logo-nombre">Junín Conecta</span>
+                        <span class="logo-tagline">~ tienda artesanal ~</span>
+                    </div>
+                </div>
             </a>
             <nav>
-                <a href="https://juninconecta.com.ar" class="btn-nav">📻 Volver a Junín Conecta</a>
+                <a href="https://juninconecta.com.ar" class="btn-nav">📻 Volver a la App</a>
             </nav>
         </div>
     </header>
 
+    <!-- HERO -->
     <div class="hero">
-        <h1>🌿 Tienda Junín Conecta</h1>
+        <span class="hero-eyebrow">✦ Hecho con dedicación en Junín ✦</span>
+        <h1>🌿 Tienda <span class="accent">Junín Conecta</span></h1>
         <div class="linea"></div>
-        <p>Productos artesanales y servicios técnicos — hechos con dedicación en Junín, Buenos Aires</p>
+        <p>Productos artesanales únicos y servicios técnicos especializados — desde el corazón de Junin</p>
     </div>
 
     <main class="catalogo-container">
 
+        <!-- BANNER ENVIO -->
         <div class="banner-envio">
-            <p>🚚 <span>Envío a todo el país</span> por comisionista · 📦 Productos embalados con cuidado · 💬 Consultas por WhatsApp</p>
+            <p>
+                <span class="banner-item">🚚 Envío a todo el país</span>
+                <span class="banner-sep">·</span>
+                <span class="banner-item">📦 Embalaje cuidado</span>
+                <span class="banner-sep">·</span>
+                <span class="banner-item">💬 Consultas por WhatsApp</span>
+                <span class="banner-sep">·</span>
+                <span class="banner-item">🤝 Entrega en mano en Junín</span>
+            </p>
         </div>
 
-        <h2 class="seccion-titulo">✦ Productos y Servicios ✦</h2>
+        <!-- TITULO -->
+        <h2 class="seccion-titulo">Productos y Servicios</h2>
 
-        <div class="productos-grid">
+        <!-- FILTROS -->
+        <div class="filtros">
+            <button class="filtro-btn active" onclick="filtrar('todos', this)">🏪 Todos</button>
+            <button class="filtro-btn" onclick="filtrar('mascotas', this)">🐾 Mascotas</button>
+            <button class="filtro-btn" onclick="filtrar('electronica', this)">⚡ Electrónica</button>
+        </div>
 
-            <article class="producto-card">
+        <!-- PRODUCTOS -->
+        <div class="productos-grid" id="grid">
+
+            <!-- CAMITA HAMACA -->
+            <article class="producto-card" data-categoria="mascotas">
                 <div class="producto-imagen">
-                    <img src="camita-ocre.png" alt="Camita de Macramé artesanal">
+                    <img src="camita-ocre.png" alt="Camita Hamaca Macramé Artesanal">
+                    <div class="img-overlay"></div>
                 </div>
                 <div class="producto-info">
-                    <span class="badge">🐾 Mascotas</span>
-                    <h3>Camita Macramé Premium (50x80 cm)</h3>
-                    <div class="descripcion">
-                        <span class="titulo-lista">MATERIALES:</span>
-                        <ul>
-                            <li>• Estructura de madera natural robusta</li>
-                            <li>• Tejido artesanal en macramé con flecos decorativos</li>
-                            <li>• Materiales 100% seguros y libres de tóxicos - ideal para tu mascota</li>
-                        </ul>
-                        <span class="titulo-lista">CARACTERÍSTICAS:</span>
-                        <ul>
-                            <li>• Tamaño ideal para mascotas pequeñas y medianas</li>
-                            <li>• Colores disponibles: colores variados y combinados</li>
-                            <li>• Diseño liviano, fácil de armar, desarmar y limpiar</li>
-                        </ul>
-                        <span class="titulo-lista">HECHO A MANO:</span>
-                        <p style="font-size: 0.85rem; font-style: italic; margin-top: 4px;">Cada pieza es única y elaborada artesanalmente en Junín. No es un producto de fábrica; es una pieza con dedicación y detalle en cada nudo.</p>
+                    <div class="card-header">
+                        <span class="badge">🐾 Mascotas</span>
                     </div>
-                    <p class="precio">$65.000</p>
-                    <a href="https://mpago.la/274cvM5" target="_blank" class="btn-comprar">💳 Comprar por Mercado Pago</a>
+                    <h3>Camita Hamaca Macramé — Modelo Clásico</h3>
+                    <div class="descripcion">
+                        <p>Estructura en V con cilindros de madera y tejido hamaca tipo macramé. La mascota queda suspendida y cómoda.</p>
+                        <span class="titulo-lista">Materiales:</span>
+                        <ul>
+                            <li>Estructura de madera maciza — robusta y duradera</li>
+                            <li>Tejido hamaca en trapillo de alta resistencia</li>
+                            <li>Materiales 100% seguros y libres de tóxicos</li>
+                        </ul>
+                        <span class="titulo-lista">Características:</span>
+                        <ul>
+                            <li>Medidas: 66 x 50 x 39 cm</li>
+                            <li>Colores disponibles: Ocre, Verde y multicolor</li>
+                            <li>Lavable — fácil de higienizar</li>
+                        </ul>
+                        <div class="hecho-a-mano">
+                            🌿 Cada pieza es única, elaborada artesanalmente nudo a nudo en Junín, Buenos Aires.
+                        </div>
+                    </div>
+                    <div class="precio-accion">
+                        <p class="precio">$60.000 <small>envíos a todo el país</small></p>
+                        <a href="https://mpago.la/1uVSUS4" target="_blank" class="btn-comprar">💳 Comprar por Mercado Pago</a>
+                    </div>
                 </div>
             </article>
 
-            <article class="producto-card">
+            <!-- CAMITA PLANA -->
+            <article class="producto-card" data-categoria="mascotas">
                 <div class="producto-imagen">
-                    <img src="camita-verde.png" alt="Cucha Artesanal Macramé Hamaca Perros Gatos Madera Pequeña">
+                    <img src="camita-verde.png" alt="Camita Plana Macramé Patas Desmontables">
+                    <div class="img-overlay"></div>
                 </div>
                 <div class="producto-info">
-                    <span class="badge">🐾 Mascotas</span>
-                    <h3>Camita Macramé Premium (66x50x39 cm)</h3>
-                    <div class="descripcion">
-                        <span class="titulo-lista">MATERIALES:</span>
-                        <ul>
-                            <li>• Estructura de madera natural resistente</li>
-                            <li>• Tejido artesanal en macramé con flecos decorativos</li>
-                            <li>• Materiales 100% seguros y libres de tóxicos</li>
-                        </ul>
-                        <span class="titulo-lista">CARACTERÍSTICAS:</span>
-                        <ul>
-                            <li>• Tamaño ideal para mascotas pequeñas y medianas</li>
-                            <li>• Colores disponibles: Ocre y multicolor</li>
-                            <li>• Diseño liviano, fácil de armar, desarmar y limpiar</li>
-                        </ul>
-                        <span class="titulo-lista">HECHO A MANO:</span>
-                        <p style="font-size: 0.85rem; font-style: italic; margin-top: 4px;">Cada pieza es única y elaborada artesanalmente en Junín. No es un producto de fábrica; es una pieza con dedicación y detalle en cada nudo.</p>
+                    <div class="card-header">
+                        <span class="badge">🐾 Mascotas</span>
                     </div>
-                    <p class="precio">$60.000</p>
-                    <a href="https://mpago.la/1uVSUS4" target="_blank" class="btn-comprar">💳 Comprar por Mercado Pago</a>
+                    <h3>Camita Plana Macramé — Patas Desmontables</h3>
+                    <div class="descripcion">
+                        <p>Marco plano con patas removibles mediante tornillos mariposa. La mascota descansa en superficie plana y cómoda.</p>
+                        <span class="titulo-lista">Materiales:</span>
+                        <ul>
+                            <li>Marco y patas en pino cepillado natural</li>
+                            <li>Tejido plano en trapillo resistente y lavable</li>
+                            <li>Patas desmontables — fácil armado sin herramientas</li>
+                        </ul>
+                        <span class="titulo-lista">Características:</span>
+                        <ul>
+                            <li>Medidas: 50 x 80 cm — ideal medianos y chicos</li>
+                            <li>Colores bicolor a elección — consultá disponibilidad</li>
+                            <li>Se envía desmontada — caja plana, flete más económico</li>
+                        </ul>
+                        <div class="hecho-a-mano">
+                            🌿 Modelo exclusivo Junín — diseñado y fabricado a mano con dedicación.
+                        </div>
+                    </div>
+                    <div class="precio-accion">
+                        <p class="precio">$65.000 <small>envíos a todo el país</small></p>
+                        <a href="https://mpago.la/274cvM5" target="_blank" class="btn-comprar">💳 Comprar por Mercado Pago</a>
+                    </div>
                 </div>
             </article>
 
-            <article class="producto-card">
+            <!-- SERVICIO PLACAS -->
+            <article class="producto-card" data-categoria="electronica">
                 <div class="producto-imagen">
                     <img src="placa.png" alt="Reparación de Placas Electrónicas">
+                    <div class="img-overlay"></div>
                 </div>
                 <div class="producto-info">
-                    <span class="badge">⚡ Electrónica</span>
+                    <div class="card-header">
+                        <span class="badge">⚡ Electrónica</span>
+                    </div>
                     <h3>Servicio Técnico de Placas Electrónicas</h3>
-                    <p class="descripcion">Diagnóstico y reparación especializada de placas de lavarropas, heladeras y línea blanca. Recibimos envíos por comisionista desde toda la región. Trabajo garantizado con la seriedad de siempre.</p>
-                    <p class="precio consultar">Consultar presupuesto</p>
-                    <a href="https://wa.me/5492364316208?text=Hola%20Eduardo%2C%20quiero%20consultar%20por%20reparación%20de%20placa" target="_blank" class="btn-consultar">💬 Consultar por WhatsApp</a>
+                    <div class="descripcion">
+                        <p>Diagnóstico y reparación especializada de placas electrónicas de línea blanca.</p>
+                        <span class="titulo-lista">Aparatos que reparamos:</span>
+                        <ul>
+                            <li>Lavarropas — todas las marcas</li>
+                            <li>Heladeras y freezers</li>
+                            <li>Aire acondicionado</li>
+                            <li>Microondas y hornos eléctricos</li>
+                        </ul>
+                        <span class="titulo-lista">¿Cómo funciona?</span>
+                        <ul>
+                            <li>Enviás la placa por comisionista desde tu ciudad</li>
+                            <li>Diagnóstico sin cargo — presupuesto previo</li>
+                            <li>Te la devolvemos reparada el mismo día si llega temprano</li>
+                            <li>Trabajo garantizado — seriedad y confianza</li>
+                        </ul>
+                        <div class="hecho-a-mano">
+                            📍 Junín es hub de rutas — los comisionistas llegan desde toda la región en el día.
+                        </div>
+                    </div>
+                    <div class="precio-accion">
+                        <p class="precio consultar">Presupuesto sin cargo</p>
+                        <a href="https://wa.me/5492364316208?text=Hola%20Eduardo%2C%20quiero%20consultar%20por%20reparación%20de%20placa" target="_blank" class="btn-consultar">💬 Consultar por WhatsApp</a>
+                    </div>
                 </div>
             </article>
 
         </div>
     </main>
 
+    <!-- FOOTER -->
     <footer class="footer">
         <p>© 2026 <a href="https://juninconecta.com.ar">Junín Conecta</a> — Hecho con dedicación en Junín, Buenos Aires 🌿</p>
     </footer>
 
+    <script>
+        function filtrar(categoria, btn) {
+            document.querySelectorAll('.filtro-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            document.querySelectorAll('.producto-card').forEach(card => {
+                if (categoria === 'todos' || card.dataset.categoria === categoria) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
+
 </body>
 </html>
+

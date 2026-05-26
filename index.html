@@ -840,6 +840,76 @@
             item.classList.toggle('active');
         }
     </script>
+    <script>
+        // URL real de tu Google Sheets estructurado para devolver datos limpios
+        const SHEET_URL = 'https://docs.google.com/spreadsheets/d/1d6tYHbIRnDIZNc9EfS6WPooCaQt0-kjJj5TBE0RL1Vg/gviz/tq?tqx=out:json';
+
+        // Esperamos a que la página cargue por completo para ejecutar
+        document.addEventListener("DOMContentLoaded", () => {
+            cargarProductosDesdeSheets();
+        });
+
+        function cargarProductosDesdeSheets() {
+            fetch(SHEET_URL)
+                .then(res => res.text())
+                .then(data => {
+                    // Limpiamos el texto que devuelve Google para convertirlo en un JSON legible
+                    const temp = data.substr(47).slice(0, -2);
+                    const json = JSON.parse(temp);
+                    const filas = json.table.rows;
+
+                    const contenedor = document.getElementById('contenedor-productos');
+                    if (!contenedor) return; // Si no encuentra el contenedor, frena
+                    
+                    contenedor.innerHTML = ''; // Limpiamos las camitas viejas
+
+                    // Recorremos fila por fila tu planilla de Google Sheets
+                    filas.forEach((fila) => {
+                        // Mapeamos según el orden exacto de tus columnas en "comercios"
+                        const comercio = {
+                            nombre:    fila.c[0] ? fila.c[0].v : '',
+                            telefono:  fila.c[1] ? fila.c[1].v : '',
+                            direccion: fila.c[2] ? fila.c[2].v : '',
+                            whatsapp:  fila.c[3] ? fila.c[3].v : '',
+                            category:  fila.c[4] ? fila.c[4].v : 'all' // Ejemplo: lavaderos, ferreterias
+                        };
+
+                        // Si la fila no tiene nombre, nos la saltamos (fila vacía)
+                        if (!comercio.nombre) return;
+
+                        // Armamos la tarjeta usando tus clases CSS existentes
+                        const estructuraTarjeta = `
+                            <div class="product-card" data-category="${comercio.category.toLowerCase().trim()}">
+                                <div class="product-badge-container">
+                                    🏪
+                                    <span class="badge-tag">${comercio.category.toUpperCase()}</span>
+                                </div>
+                                <div class="product-info">
+                                    <span class="rating">★★★★★ DESTACADO</span>
+                                    <h3>${comercio.nombre}</h3>
+                                    <p>📍 <strong>Dirección:</strong> ${comercio.direccion}</p>
+                                    
+                                    <div class="price-container">
+                                        <span class="price-sub">Contacto directo por WhatsApp con el comercio</span>
+                                    </div>
+
+                                    <div class="actions-block">
+                                        <a href="https://wa.me/${comercio.whatsapp}?text=Hola!%20Te%20encontré%20en%20Junín%20Conecta." 
+                                           target="_blank" class="btn btn-wa">
+                                            Contactar por WhatsApp
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+
+                        // Metemos la tarjeta adentro del contenedor vaciado
+                        contenedor.innerHTML += estructuraTarjeta;
+                    });
+                })
+                .catch(error => console.error("Error cargando los comercios:", error));
+        }
+    </script>
 </body>
 </html>
 

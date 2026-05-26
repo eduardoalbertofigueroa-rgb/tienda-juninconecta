@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Junín Conecta - Guía Comercial</title>
+    <title>Junín Conecta - Taller de Electrónica</title>
     <style>
         :root {
             --primary: #2d5a27;
@@ -242,19 +242,6 @@
             justify-content: center;
             align-items: center;
             font-size: 4rem;
-        }
-
-        .badge-tag {
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            background-color: var(--accent);
-            color: white;
-            padding: 4px 10px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            border-radius: 4px;
-            text-transform: uppercase;
         }
 
         .product-info {
@@ -569,7 +556,7 @@
     <header>
         <div class="brand">
             <h1>Junín Conecta</h1>
-            <p>~ guía comercial y servicios ~</p>
+            <p>~ servicio técnico electrónico ~</p>
         </div>
         <div class="nav-actions">
             <a href="https://juninconecta.com.ar" class="btn-back">📻 Volver a la App</a>
@@ -577,18 +564,18 @@
     </header>
 
     <section class="hero">
-        <span class="tagline">✦ Comercios y Servicios de Junín ✦</span>
-        <h2>Todo lo que buscás en un solo lugar</h2>
-        <p>Encontrá comercios locales y servicios técnicos profesionales con contacto directo sin intermediarios.</p>
+        <span class="tagline">✦ Soporte Técnico Profesional ✦</span>
+        <h2>Reparación de Placas Electrónicas de Línea Blanca</h2>
+        <p>Soluciones rápidas y definitivas para módulos electrónicos de lavarropas, heladeras y aires acondicionados. Logística ágil para toda la región.</p>
         
         <div class="stats-container">
             <div class="stat-item">
-                <span class="stat-val">+100</span>
-                <span class="stat-lbl">Consultas diarias</span>
+                <span class="stat-val">En el día</span>
+                <span class="stat-lbl">Diagnóstico veloz</span>
             </div>
             <div class="stat-item">
-                <span class="stat-val">★ 4.9</span>
-                <span class="stat-lbl">Valoración promedio</span>
+                <span class="stat-val">★ 5.0</span>
+                <span class="stat-lbl">Garantía de trabajo</span>
             </div>
             <div class="stat-item">
                 <span class="stat-val">📍</span>
@@ -598,38 +585,100 @@
     </section>
 
     <div class="features-bar">
-        <span class="feature-tag">🏪 Comercios Locales</span>
-        <span class="feature-tag">🔧 Servicios Profesionales</span>
+        <span class="feature-tag">🧼 Placas de Lavarropas</span>
+        <span class="feature-tag">❄️ Módulos de Heladeras</span>
+        <span class="feature-tag">🌡️ Aires Acondicionados</span>
         <span class="feature-tag">💬 WhatsApp Directo</span>
-        <span class="feature-tag">🔒 Datos Verificados</span>
     </div>
 
     <main class="main-content">
         <div class="section-header">
-            <span>~ guía comercial ~</span>
-            <h2>Productos y Servicios</h2>
+            <span>~ nuestro taller ~</span>
+            <h2>Especialidades en Reparación</h2>
         </div>
 
         <div class="filters">
-            <button class="filter-btn active" data-category="all">🏪 Todos</button>
-            <button class="filter-btn" data-category="lavaderos">🧼 Lavaderos</button>
-            <button class="filter-btn" data-category="ferreterias">🛠️ Ferreterías</button>
-            <button class="filter-btn" data-category="electronica">⚡ Electrónica</button>
+            <button class="filter-btn active" data-category="all">⚡ Todos</button>
+            <button class="filter-btn" data-category="lavarropas">🧼 Lavarropas</button>
+            <button class="filter-btn" data-category="heladeras">❄️ Heladeras</button>
+            <button class="filter-btn" data-category="aires">🌡️ Aires</button>
         </div>
 
         <div class="products-grid" id="contenedor-productos">
+            <div class="product-card" data-category="lavarropas">
+                <div class="product-badge-container">🧼⚡</div>
+                <div class="product-info">
+                    <span class="rating">★★★★★ ESPECIALIDAD</span>
+                    <h3>Reparación de Placas de Lavarropas y Lavavajillas</h3>
+                    <p>Solución de fallas de encendido, errores de carga, problemas en el centrifugado o comandos bloqueados en todas las marcas.</p>
+                    <ul class="specs-list">
+                        <li>Fallas de potencia y microcontrolador</li>
+                        <li>Cambio de componentes dañados en la placa</li>
+                        <li>Pruebas en banco de ensayo antes de la entrega</li>
+                    </ul>
+                    <div class="price-container">
+                        <span class="current-price">Presupuesto sin cargo</span>
+                        <span class="price-sub">⏱️ Respuesta en menos de 24 hs</span>
+                    </div>
+                    <div class="actions-block">
+                        <a href="https://wa.me/5492364316208?text=Hola%20Eduardo%2C%20quiero%20consultar%20por%20reparaci%C3%B3n%20de%20placa%20de%20lavarropas" target="_blank" class="btn btn-wa">Consultar por Lavarropas</a>
+                    </div>
+                </div>
             </div>
+
+            <div class="product-card" data-category="heladeras">
+                <div class="product-badge-container">❄️⚡</div>
+                <div class="product-info">
+                    <span class="rating">★★★★★ ALTA PRECISIÓN</span>
+                    <h3>Módulos Electrónicos de Heladeras y Freezers</h3>
+                    <p>Reparación de placas principales e interfaces de control para sistemas No Frost, convencionales e Inverter.</p>
+                    <ul class="specs-list">
+                        <li>Problemas en el ciclo de descongelado automático</li>
+                        <li>Inestabilidad en sensores de temperatura</li>
+                        <li>Protección contra picos de tensión</li>
+                    </ul>
+                    <div class="price-container">
+                        <span class="current-price">Presupuesto sin cargo</span>
+                        <span class="price-sub">⏱️ Diagnóstico técnico veloz</span>
+                    </div>
+                    <div class="actions-block">
+                        <a href="https://wa.me/5492364316208?text=Hola%20Eduardo%2C%20quiero%20consultar%20por%20reparaci%C3%B3n%20de%20placa%20de%20heladera" target="_blank" class="btn btn-wa">Consultar por Heladeras</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="aires">
+                <div class="product-badge-container">🌡️⚡</div>
+                <div class="product-info">
+                    <span class="rating">★★★★★ PROFESIONAL</span>
+                    <h3>Placas de Aires Acondicionados y Microondas</h3>
+                    <p>Restauración de placas de la unidad interior y exterior. Solución a fallas de comunicación, encendido o control de ventilación.</p>
+                    <ul class="specs-list">
+                        <li>Fallas en relevadores y fuentes conmutadas</li>
+                        <li>Reemplazo de receptores e integrados quemados</li>
+                        <li>Atención a técnicos instaladores de la zona</li>
+                    </ul>
+                    <div class="price-container">
+                        <span class="current-price">Presupuesto sin cargo</span>
+                        <span class="price-sub">⏱️ Trabajo garantizado</span>
+                    </div>
+                    <div class="actions-block">
+                        <a href="https://wa.me/5492364316208?text=Hola%20Eduardo%2C%20quiero%20consultar%20por%20reparaci%C3%B3n%20de%20placa%20de%20aire" target="_blank" class="btn btn-wa">Consultar por Aires/Microondas</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
 
     <section class="testimonials">
         <div class="section-header">
-            <span>~ qué dicen los vecinos ~</span>
+            <span>~ testimonios del servicio ~</span>
             <h2>Experiencias Verificadas</h2>
         </div>
         <div class="testimonials-grid">
             <div class="testimonial-card">
                 <div class="stars">★★★★★</div>
-                <p>"Buenísima la guía, encontré al toque el número del lavadero y coordiné todo directo por WhatsApp sin dar vueltas."</p>
+                <p>"Impecable el servicio. Le llevé la placa de un lavarropas que no prendía y me la dejó andando como nueva en el mismo día."</p>
                 <div class="client-info">
                     <div class="client-avatar">M</div>
                     <div class="client-name">
@@ -640,18 +689,18 @@
             </div>
             <div class="testimonial-card">
                 <div class="stars">★★★★★</div>
-                <p>"Reparó la placa del lavarropas en el día. Lo mandé por comisionista desde Pergamino y al otro día la tenía armada. Excelente profesional."</p>
+                <p>"Reparó la placa de la heladera super rápido. Se la mandé con un comisionista desde Pergamino y al otro día ya estaba de vuelta lista para armar."</p>
                 <div class="client-info">
                     <div class="client-avatar">C</div>
                     <div class="client-name">
                         <h4>Carlos Vidal</h4>
-                        <span>Pergamino · Reparación de placa</span>
+                        <span>Pergamino · Técnico</span>
                     </div>
                 </div>
             </div>
             <div class="testimonial-card">
                 <div class="stars">★★★★★</div>
-                <p>"La app es comodísima para tener a mano en el celular. Encontrás los negocios del barrio al instante."</p>
+                <p>"Excelente atención y honestidad en el diagnóstico. Es mi contacto fijo cada vez que tengo un problema electrónico en los equipos de casa."</p>
                 <div class="client-info">
                     <div class="client-avatar">L</div>
                     <div class="client-name">
@@ -666,33 +715,33 @@
     <section class="about-section">
         <span class="about-avatar">🙋‍♂️</span>
         <span>~ Eduardo ~</span>
-        <h2>Potenciando el desarrollo de nuestra comunidad.</h2>
-        <p>Vivo en Junín, Buenos Aires y creé este espacio con un propósito claro: conectar de forma simple y efectiva a los comercios de nuestra ciudad con los vecinos. Adicionalmente, combino este desarrollo digital con mi pasión por el Servicio Técnico de Placas Electrónicas de línea blanca, un taller donde soluciono problemas de lavarropas, heladeras y aires acondicionados recibiendo equipos de toda la región. Junín conecta es un puente pensado para ayudarnos entre todos de forma directa.</p>
+        <h2>Compromiso técnico y soporte directo para la región.</h2>
+        <p>Vivo en Junín, Buenos Aires, y combinó mi dedicación al desarrollo digital con mi gran pasión por la Electrónica de línea blanca. En mi taller me especializo pura y exclusivamente en dar soluciones a los módulos de control de lavarropas, heladeras y aires acondicionados. Entiendo el valor del tiempo cuando un electrodoméstico falla, por eso ofrezco un servicio ágil, transparente y directo para los vecinos de Junín y los técnicos de las localidades vecinas a través del sistema de comisionistas.</p>
     </section>
 
     <section class="faq-section">
         <div class="section-header">
-            <span>~ dudas frecuentes ~</span>
+            <span>~ dudas sobre el taller ~</span>
             <h2>Preguntas frecuentes</h2>
         </div>
         
         <div class="faq-item">
-            <div class="faq-question" onclick="toggleFaq(this)">¿Cómo contacto a un comercio o servicio?</div>
-            <div class="faq-answer">Haciendo clic en el botón verde de WhatsApp de cualquier tarjeta se te abrirá una conversación directa con el comercio. No cobramos comisiones ni intervenimos en el pago.</div>
-        </div>
-        <div class="faq-item">
             <div class="faq-question" onclick="toggleFaq(this)">¿Cómo envío una placa para reparar en el taller técnico?</div>
-            <div class="faq-answer">Coordinamos directo por WhatsApp. Podés enviarla con un comisionista de tu confianza (llegan diariamente a Junín desde toda la zona). El diagnóstico inicial es sin cargo y te pasamos presupuesto firme en menos de 24 hs antes de arrancar.</div>
+            <div class="faq-answer">Coordinamos todo directo por WhatsApp. Si estás en la zona, podés mandarla con un comisionista de confianza (llegan diariamente a Junín). El diagnóstico inicial es sin cargo y te pasamos el presupuesto firme antes de empezar.</div>
         </div>
         <div class="faq-item">
-            <div class="faq-question" onclick="toggleFaq(this)">¿Tiene costo aparecer en Junín Conecta?</div>
-            <div class="faq-answer">Podés registrar tu comercio o servicio de forma simple. Los datos quedan vinculados directamente a nuestro sistema para que los vecinos te encuentren al instante en la zona.</div>
+            <div class="faq-question" onclick="toggleFaq(this)">¿Cuánto tiempo demora la reparación?</div>
+            <div class="faq-answer">La mayoría de los diagnósticos se realizan en menos de 24 horas. Dependiendo de la complejidad de la falla y la disponibilidad de componentes específicos, la reparación suele resolverse en el día o de un día para el otro.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">¿Los trabajos tienen garantía?</div>
+            <div class="faq-answer">Sí, todas las placas reparadas pasan por un banco de pruebas exhaustivo que simula el funcionamiento real del equipo y cuentan con total garantía sobre los componentes reemplazados.</div>
         </div>
     </section>
 
     <section class="newsletter">
-        <h3>¿Querés sumar tu comercio o servicio?</h3>
-        <p>Dejanos tu correo electrónico y te enviamos los pasos para que tu negocio aparezca cargado automáticamente en la guía comercial.</p>
+        <h3>¿Sos técnico instalador o reparador en la zona?</h3>
+        <p>Dejanos tu correo electrónico y te enviamos información sobre tarifas especiales para gremio y canales prioritarios de recepción de placas.</p>
         <div class="newsletter-form">
             <input type="email" placeholder="Tu correo electrónico">
             <button type="button">Consultar</button>
@@ -705,110 +754,16 @@
     </footer>
 
     <script>
-        // URL de tu Google Sheets apuntando a la pestaña de tus comercios
-        const SHEET_URL = 'https://docs.google.com/spreadsheets/d/1d6tYHbIRnDIZNc9EfS6WPooCaQt0-kjJj5TBE0RL1Vg/gviz/tq?tqx=out:json&sheet=comercios';
-
-        // Tu tarjeta fija del taller (la dejamos acá escrita en código para que nunca se borre)
-        const tarjetaServicioTecnicoFija = `
-            <div class="product-card" data-category="electronica">
-                <div class="product-badge-container">⚡🔧</div>
-                <div class="product-info">
-                    <span class="rating">★★★★★ 5.0 · 45 reparaciones</span>
-                    <h3>Servicio Técnico de Placas Electrónicas</h3>
-                    <p>Diagnóstico y reparación especializada en placas de línea blanca. Recibimos placas de toda la región por comisionistas.</p>
-                    <ul class="specs-list">
-                        <li>🧼 Lavarropas y Lavavajillas</li>
-                        <li>❄️ Heladeras y Freezers</li>
-                        <li>🌡️ Aires Acondicionados y Microondas</li>
-                    </ul>
-                    <div class="details-box">
-                        📍 Junín es hub de rutas: los comisionistas llegan diariamente desde toda la zona. Devolución veloz.
-                    </div>
-                    <div class="price-container">
-                        <span class="current-price">Presupuesto sin cargo</span>
-                        <span class="price-sub">⏱️ Diagnóstico y respuesta en menos de 24 hs</span>
-                    </div>
-                    <div class="actions-block">
-                        <a href="https://wa.me/5492364316208?text=Hola%20Eduardo%2C%20quiero%20consultar%20por%20reparaci%C3%B3n%20de%20placa" target="_blank" class="btn btn-wa">Enviar Mensaje por Placa</a>
-                    </div>
-                </div>
-            </div>
-        `;
-
         document.addEventListener("DOMContentLoaded", () => {
-            cargarContenidoTotal();
+            inicializarFiltrosGuia();
         });
-
-        function cargarContenidoTotal() {
-            fetch(SHEET_URL)
-                .then(res => res.text())
-                .then(data => {
-                    const temp = data.substr(47).slice(0, -2);
-                    const json = JSON.parse(temp);
-                    const filas = json.table.rows;
-
-                    const contenedor = document.getElementById('contenedor-productos');
-                    if (!contenedor) return;
-                    
-                    // 1. Iniciamos el contenedor agregando primero tu tarjeta fija del taller
-                    contenedor.innerHTML = tarjetaServicioTecnicoFija; 
-
-                    // 2. Traemos dinámicamente todos los comercios del Google Sheets
-                    filas.forEach((fila) => {
-                        const comercio = {
-                            nombre:    fila.c[0] ? fila.c[0].v : '',
-                            telefono:  fila.c[1] ? fila.c[1].v : '',
-                            direccion: fila.c[2] ? fila.c[2].v : '',
-                            whatsapp:  fila.c[3] ? fila.c[3].v : '',
-                            category:  fila.c[4] ? fila.c[4].v : 'otros'
-                        };
-
-                        if (!comercio.nombre) return; // Si no tiene nombre salta la fila
-
-                        const estructuraTarjetaComercio = `
-                            <div class="product-card" data-category="${comercio.category.toLowerCase().trim()}">
-                                <div class="product-badge-container">
-                                    🏪
-                                    <span class="badge-tag">${comercio.category.toUpperCase()}</span>
-                                </div>
-                                <div class="product-info">
-                                    <span class="rating">★★★★★ DESTACADO</span>
-                                    <h3>${comercio.nombre}</h3>
-                                    <p>📍 <strong>Dirección:</strong> ${comercio.direccion}</p>
-                                    
-                                    <div class="price-container">
-                                        <span class="price-sub">Contacto directo por WhatsApp con el comercio</span>
-                                    </div>
-
-                                    <div class="actions-block">
-                                        <a href="https://wa.me/${comercio.whatsapp}?text=Hola!%20Te%20encontré%20en%20Junín%20Conecta." 
-                                           target="_blank" class="btn btn-wa">
-                                            Contactar por WhatsApp
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        `;
-                        contenedor.innerHTML += estructuraTarjetaComercio;
-                    });
-
-                    // 3. Una vez que todo está cargado en la pantalla, activamos los filtros de los botones
-                    inicializarFiltrosGuia();
-                })
-                .catch(error => {
-                    console.error("Error al conectar con Sheets:", error);
-                    // Si el Sheets falla por alguna razón, al menos mostramos tu servicio técnico
-                    document.getElementById('contenedor-productos').innerHTML = tarjetaServicioTecnicoFija;
-                    inicializarFiltrosGuia();
-                });
-        }
 
         function inicializarFiltrosGuia() {
             const botones = document.querySelectorAll('.filter-btn');
             const tarjetas = document.querySelectorAll('.product-card');
 
             botones.forEach(boton => {
-                boton.addEventListener('click', (e) => {
+                boton.addEventListener('click', () => {
                     botones.forEach(b => b.classList.remove('active'));
                     boton.classList.add('active');
 

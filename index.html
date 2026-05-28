@@ -457,7 +457,8 @@
   </footer>
 
   <script>
-    const GOOGLE_SHEETS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSaD0ENZuTnryCil-5hfyLqczhcwZsiuEk6RgOiwwa0frF-GpU1_QKpzgDpo63R2ew_4WGMIR9Ykjav/pub?output=csv";
+    const GOOGLE_SHEETS_GID = "815455866";
+    const GOOGLE_SHEETS_CSV_URL = `https://docs.google.com/spreadsheets/d/e/2PACX-1vSaD0ENZuTnryCil-5hfyLqczhcwZsiuEk6RgOiwwa0frF-GpU1_QKpzgDpo63R2ew_4WGMIR9Ykjav/pub?gid=${GOOGLE_SHEETS_GID}&single=true&output=csv`;
 
     const fallbackProducts = [
       {
@@ -529,6 +530,32 @@
       return String(value || "").trim();
     }
 
+    function stripAccents(value) {
+      return normalize(value).normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    }
+
+    function canonicalHeader(header) {
+      const clean = stripAccents(header).toLowerCase().replace(/\s+/g, " ");
+      const aliases = {
+        "tipo de publicacion": "tipo",
+        "titulo del producto o servicio": "titulo",
+        "descripcion corta": "descripcion",
+        "link de foto del producto": "foto",
+        "foto del producto": "foto",
+        "imagen": "foto",
+        "whatsapp de contacto": "whatsapp",
+        "telefono": "whatsapp",
+        "zona o barrio": "zona",
+        "nombre del vendedor o emprendimiento": "vendedor",
+        "nombre del vendedor": "vendedor",
+        "mercado pago": "link_pago",
+        "link de mercado pago": "link_pago",
+        "link pago": "link_pago"
+      };
+
+      return aliases[clean] || clean.replace(/ /g, "_");
+    }
+
     function csvToRows(csv) {
       const rows = [];
       let current = "";
@@ -570,7 +597,7 @@
 
     function parseCsv(csv) {
       const rows = csvToRows(csv);
-      const headers = rows.shift().map((header) => normalize(header).toLowerCase());
+      const headers = rows.shift().map(canonicalHeader);
       return rows.map((row) => {
         const item = {};
         headers.forEach((header, index) => {
@@ -580,15 +607,68 @@
       });
     }
 
+    function gvizUrl() {
+      return `${GOOGLE_SHEETS_CSV_URL.split("/pub?")[0]}/gviz/tq?gid=${GOOGLE_SHEETS_GID}`;
+    }
+
+    function loadGoogleSheetJsonp() {
+      return new Promise((resolve, reject) => {
+        const callbackName = `marketSheetCallback_${Date.now()}`;
+        const script = document.createElement("script");
+
+        window[callbackName] = (data) => {
+          delete window[callbackName];
+          script.remove();
+
+          try {
+            const headers = data.table.cols.map((col) => canonicalHeader(col.label));
+            const items = data.table.rows.map((row) => {
+              const item = {};
+              headers.forEach((header, index) => {
+                const cell = row.c[index];
+                item[header] = normalize(cell && (cell.f || cell.v));
+              });
+              return item;
+            });
+            resolve(items);
+          } catch (error) {
+            reject(error);
+          }
+        };
+
+        script.onerror = () => {
+          delete window[callbackName];
+          script.remove();
+          reject(new Error("No se pudo cargar Google Sheets por lectura alternativa."));
+        };
+
+        script.src = `${gvizUrl()}&tqx=out:json;responseHandler:${callbackName}`;
+        document.body.appendChild(script);
+      });
+    }
+
     function whatsappLink(product) {
-      const phone = normalize(product.whatsapp).replace(/\D/g, "");
+      const phone = normalize(product.whatsapp || "5492364316208").replace(/\D/g, "");
       const text = encodeURIComponent(`Hola, vi "${product.titulo}" en Junín Conecta Market y quiero consultar.`);
       return `https://wa.me/${phone}?text=${text}`;
     }
 
+    function directImageUrl(url) {
+      const value = normalize(url);
+      const driveFile = value.match(/drive\.google\.com\/file\/d\/([^/]+)/);
+      const driveId = value.match(/[?&]id=([^&]+)/);
+      const githubBlob = value.match(/github\.com\/([^/]+)\/([^/]+)\/blob\/([^/]+)\/(.+)/);
+
+      if (driveFile) return `https://drive.google.com/thumbnail?id=${driveFile[1]}&sz=w1000`;
+      if (driveId) return `https://drive.google.com/thumbnail?id=${driveId[1]}&sz=w1000`;
+      if (githubBlob) return `https://raw.githubusercontent.com/${githubBlob[1]}/${githubBlob[2]}/${githubBlob[3]}/${githubBlob[4]}`;
+      if (value.includes("dropbox.com")) return value.replace("dl=0", "raw=1");
+      return value;
+    }
+
     function imageMarkup(product) {
       if (product.foto) {
-        return `<img src="${product.foto}" alt="${product.titulo}" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('span'), {className:'emoji', textContent:'🛍️'}))">`;
+        return `<img src="${directImageUrl(product.foto)}" alt="${product.titulo}" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('span'), {className:'emoji', textContent:'🛍️'}))">`;
       }
       if (product.categoria.toLowerCase().includes("mascota")) return `<span class="emoji">🛏️🐕</span>`;
       if (product.categoria.toLowerCase().includes("serv")) return `<span class="emoji">🔧</span>`;
@@ -654,6 +734,32 @@
       emptyState.style.display = visible.length ? "none" : "block";
     }
 
+    function cleanProduct(product) {
+      return {
+        estado: product.estado,
+        tipo: product.tipo || "vendedor",
+        categoria: product.categoria || "Otros",
+        titulo: product.titulo || "Producto sin título",
+        descripcion: product.descripcion || "Sin descripción.",
+        precio: product.precio || "Consultar",
+        foto: product.foto,
+        whatsapp: product.whatsapp,
+        zona: product.zona,
+        vendedor: product.vendedor,
+        link_pago: product.link_pago,
+        destacado: product.destacado
+      };
+    }
+
+    function approvedProducts(items) {
+      return items
+        .filter((product) => {
+          const estado = normalize(product.estado).toLowerCase();
+          return estado === "aprobado" || estado === "publicado" || estado === "si";
+        })
+        .map(cleanProduct);
+    }
+
     async function loadProducts() {
       products = fallbackProducts;
 
@@ -661,26 +767,17 @@
         try {
           const response = await fetch(GOOGLE_SHEETS_CSV_URL);
           const csv = await response.text();
-          const sheetProducts = parseCsv(csv)
-            .filter((product) => normalize(product.estado).toLowerCase() === "aprobado")
-            .map((product) => ({
-              estado: product.estado,
-              tipo: product.tipo,
-              categoria: product.categoria,
-              titulo: product.titulo,
-              descripcion: product.descripcion,
-              precio: product.precio,
-              foto: product.foto,
-              whatsapp: product.whatsapp,
-              zona: product.zona,
-              vendedor: product.vendedor,
-              link_pago: product.link_pago,
-              destacado: product.destacado
-            }));
+          const sheetProducts = approvedProducts(parseCsv(csv));
 
           if (sheetProducts.length) products = sheetProducts;
         } catch (error) {
-          console.warn("No se pudo cargar Google Sheets. Se muestran productos de respaldo.", error);
+          console.warn("No se pudo cargar el CSV de Google Sheets. Probando lectura alternativa.", error);
+          try {
+            const sheetProducts = approvedProducts(await loadGoogleSheetJsonp());
+            if (sheetProducts.length) products = sheetProducts;
+          } catch (fallbackError) {
+            console.warn("No se pudo cargar Google Sheets. Se muestran productos de respaldo.", fallbackError);
+          }
         }
       }
 
@@ -694,6 +791,7 @@
   </script>
 </body>
 </html>
+
 
 
 

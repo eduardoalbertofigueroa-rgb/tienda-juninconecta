@@ -347,6 +347,109 @@
     }
     footer a { color: var(--white); font-weight: 850; }
 
+    /* ── Modal vendido ── */
+    .modal-overlay {
+      align-items: center;
+      background: rgba(23, 27, 24, 0.72);
+      backdrop-filter: blur(6px);
+      bottom: 0;
+      display: none;
+      justify-content: center;
+      left: 0;
+      padding: 18px;
+      position: fixed;
+      right: 0;
+      top: 0;
+      z-index: 100;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      box-shadow: 0 28px 64px rgba(23, 27, 24, 0.22);
+      max-width: 420px;
+      padding: 32px 28px 28px;
+      width: 100%;
+      animation: modalIn 0.22s ease;
+    }
+    @keyframes modalIn {
+      from { opacity: 0; transform: translateY(12px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .modal h3 { color: var(--primary-dark); font-size: 1.2rem; margin-bottom: 6px; }
+    .modal .modal-sub { color: var(--muted); font-size: 0.9rem; margin-bottom: 22px; }
+    .modal .product-name {
+      background: var(--soft);
+      border-left: 4px solid var(--primary);
+      border-radius: 6px;
+      color: var(--primary-dark);
+      font-weight: 850;
+      margin-bottom: 20px;
+      padding: 10px 12px;
+    }
+    .pin-row {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    .pin-digit {
+      background: var(--white);
+      border: 2px solid var(--line);
+      border-radius: 8px;
+      caret-color: var(--primary);
+      font-size: 1.8rem;
+      font-weight: 900;
+      height: 64px;
+      text-align: center;
+      transition: border-color 0.15s;
+      width: 56px;
+    }
+    .pin-digit:focus { border-color: var(--primary); outline: none; }
+    .pin-digit.error { border-color: #c0392b; animation: shake 0.3s ease; }
+    @keyframes shake {
+      0%,100% { transform: translateX(0); }
+      25%      { transform: translateX(-5px); }
+      75%      { transform: translateX(5px); }
+    }
+    .modal-msg {
+      border-radius: 6px;
+      font-size: 0.88rem;
+      margin-bottom: 14px;
+      min-height: 28px;
+      padding: 7px 10px;
+      text-align: center;
+    }
+    .modal-msg.error { background: #fdecea; color: #c0392b; }
+    .modal-msg.success { background: #eaf6ee; color: #1e7e34; }
+    .modal-actions { display: flex; gap: 10px; }
+    .modal-actions .btn { flex: 1; }
+    .btn-danger { background: #c0392b; color: var(--white); }
+    .btn-danger:hover { background: #a93226; }
+
+    /* Badge vendido en cards */
+    .sold-badge {
+      background: #c0392b;
+      border-radius: 999px;
+      color: #fff;
+      font-size: 0.72rem;
+      font-weight: 900;
+      padding: 4px 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .btn-sold {
+      background: var(--soft);
+      border: 1.5px dashed var(--line);
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-weight: 700;
+      min-height: 38px;
+      padding: 8px 12px;
+    }
+    .btn-sold:hover { border-color: var(--primary); color: var(--primary); background: var(--soft); }
+
     @media (max-width: 900px) {
       .hero-inner, .product.featured { grid-template-columns: 1fr; }
       .grid, .how-inner { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -448,6 +551,26 @@
       </article>
     </div>
   </section>
+
+  <!-- Modal: marcar como vendido -->
+  <div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal">
+      <h3 id="modalTitle">🏷️ Marcar como vendido</h3>
+      <p class="modal-sub">Ingresá el PIN de 4 dígitos que elegiste al publicar.</p>
+      <div class="product-name modal" id="modalProductName"></div>
+      <div class="pin-row" id="pinRow">
+        <input class="pin-digit" type="password" inputmode="numeric" maxlength="1" pattern="[0-9]" aria-label="Dígito 1">
+        <input class="pin-digit" type="password" inputmode="numeric" maxlength="1" pattern="[0-9]" aria-label="Dígito 2">
+        <input class="pin-digit" type="password" inputmode="numeric" maxlength="1" pattern="[0-9]" aria-label="Dígito 3">
+        <input class="pin-digit" type="password" inputmode="numeric" maxlength="1" pattern="[0-9]" aria-label="Dígito 4">
+      </div>
+      <div class="modal-msg" id="modalMsg"></div>
+      <div class="modal-actions">
+        <button class="btn btn-soft" id="modalCancel" type="button">Cancelar</button>
+        <button class="btn btn-danger" id="modalConfirm" type="button">✓ Confirmar venta</button>
+      </div>
+    </div>
+  </div>
 
   <a class="floating-wa" href="https://wa.me/5492364316208?text=Hola%20Eduardo%2C%20quiero%20consultar%20por%20Jun%C3%ADn%20Conecta%20Market" target="_blank" rel="noopener">💬 WhatsApp</a>
 
@@ -678,15 +801,28 @@
     function productCard(product) {
       const isFeatured = normalize(product.destacado).toLowerCase() === "si";
       const isOfficial = normalize(product.tipo).toLowerCase() === "oficial";
-      const paymentButton = product.link_pago
+      const isVendido = normalize(product.estado).toLowerCase() === "vendido";
+
+      // Mercado Pago solo para productos oficiales (tuyos)
+      const paymentButton = (isOfficial && product.link_pago)
         ? `<a class="btn btn-mp" href="${product.link_pago}" target="_blank" rel="noopener">Comprar por Mercado Pago</a>`
         : "";
+
+      const soldBadge = isVendido ? `<span class="sold-badge">Vendido</span>` : "";
+      const soldBtn = !isOfficial && !isVendido
+        ? `<button class="btn btn-sold mark-sold-btn" type="button" data-titulo="${product.titulo.replace(/"/g,'&quot;')}" data-row="${product._row || ''}">¿Lo vendiste? Marcalo aquí</button>`
+        : "";
+
+      const waBtn = !isVendido
+        ? `<a class="btn btn-wa" href="${whatsappLink(product)}" target="_blank" rel="noopener">Consultar por WhatsApp</a>`
+        : `<span style="color:var(--muted);font-size:0.9rem;text-align:center">Esta publicación ya fue vendida.</span>`;
 
       return `
         <article class="product ${isFeatured ? "featured" : ""}">
           <div class="media">
             ${imageMarkup(product)}
             <span class="tag">${isOfficial ? "Oficial" : product.categoria}</span>
+            ${soldBadge}
           </div>
           <div class="content">
             <span class="meta">${product.categoria} · ${isOfficial ? "Junín Conecta" : "Vendedor local"}</span>
@@ -700,7 +836,8 @@
             <div class="seller-note">La compra se coordina directamente con el vendedor por WhatsApp.</div>
             <div class="actions">
               ${paymentButton}
-              <a class="btn btn-wa" href="${whatsappLink(product)}" target="_blank" rel="noopener">Consultar por WhatsApp</a>
+              ${waBtn}
+              ${soldBtn}
             </div>
           </div>
         </article>
@@ -732,10 +869,98 @@
 
       grid.innerHTML = visible.map(productCard).join("");
       emptyState.style.display = visible.length ? "none" : "block";
+
+      // Bind "marcar como vendido" buttons
+      grid.querySelectorAll(".mark-sold-btn").forEach((btn) => {
+        btn.addEventListener("click", () => openModal(btn.dataset.titulo, btn.dataset.row));
+      });
     }
 
-    function cleanProduct(product) {
+    // ── PIN Modal ──
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby1FGz_6KadxE35zO9wPpRGo0OC3GciceCEoVKl9lxvYV_5ojiFJzAtHDGCLmLmumDU/exec";
+
+    const overlay   = document.getElementById("modalOverlay");
+    const pinDigits = document.querySelectorAll(".pin-digit");
+    const modalMsg  = document.getElementById("modalMsg");
+    const modalProductName = document.getElementById("modalProductName");
+    const modalConfirm = document.getElementById("modalConfirm");
+    const modalCancel  = document.getElementById("modalCancel");
+
+    let currentRow = null;
+    let currentTitulo = "";
+
+    function openModal(titulo, row) {
+      currentRow = row;
+      currentTitulo = titulo;
+      modalProductName.textContent = titulo;
+      modalMsg.textContent = "";
+      modalMsg.className = "modal-msg";
+      pinDigits.forEach((d) => { d.value = ""; d.classList.remove("error"); });
+      overlay.classList.add("open");
+      pinDigits[0].focus();
+    }
+
+    function closeModal() {
+      overlay.classList.remove("open");
+      currentRow = null;
+    }
+
+    // Auto-avanzar entre dígitos
+    pinDigits.forEach((digit, i) => {
+      digit.addEventListener("input", () => {
+        digit.value = digit.value.replace(/\D/g, "").slice(-1);
+        if (digit.value && i < pinDigits.length - 1) pinDigits[i + 1].focus();
+      });
+      digit.addEventListener("keydown", (e) => {
+        if (e.key === "Backspace" && !digit.value && i > 0) pinDigits[i - 1].focus();
+      });
+    });
+
+    modalCancel.addEventListener("click", closeModal);
+    overlay.addEventListener("click", (e) => { if (e.target === overlay) closeModal(); });
+
+    modalConfirm.addEventListener("click", async () => {
+      const pin = Array.from(pinDigits).map((d) => d.value).join("");
+      if (pin.length < 4) {
+        showMsg("Ingresá los 4 dígitos del PIN.", "error");
+        return;
+      }
+
+      modalConfirm.disabled = true;
+      modalConfirm.textContent = "Verificando…";
+
+      try {
+        const res = await fetch(APPS_SCRIPT_URL, {
+          method: "POST",
+          body: JSON.stringify({ accion: "marcarVendido", row: currentRow, pin, titulo: currentTitulo }),
+        });
+        const data = await res.json();
+
+        if (data.ok) {
+          showMsg("✅ ¡Publicación marcada como vendida! Te avisamos al administrador.", "success");
+          setTimeout(() => { closeModal(); loadProducts(); }, 2200);
+        } else {
+          showMsg(data.mensaje || "PIN incorrecto. Intentá de nuevo.", "error");
+          pinDigits.forEach((d) => d.classList.add("error"));
+          setTimeout(() => pinDigits.forEach((d) => { d.classList.remove("error"); d.value = ""; }), 700);
+          pinDigits[0].focus();
+        }
+      } catch {
+        showMsg("Error de conexión. Intentá de nuevo.", "error");
+      }
+
+      modalConfirm.disabled = false;
+      modalConfirm.textContent = "✓ Confirmar venta";
+    });
+
+    function showMsg(text, type) {
+      modalMsg.textContent = text;
+      modalMsg.className = `modal-msg ${type}`;
+    }
+
+    function cleanProduct(product, rowIndex) {
       return {
+        _row: rowIndex,
         estado: product.estado,
         tipo: product.tipo || "vendedor",
         categoria: product.categoria || "Otros",
@@ -755,9 +980,9 @@
       return items
         .filter((product) => {
           const estado = normalize(product.estado).toLowerCase();
-          return estado === "aprobado" || estado === "publicado" || estado === "si";
+          return estado === "aprobado" || estado === "publicado" || estado === "si" || estado === "vendido";
         })
-        .map(cleanProduct);
+        .map((product, index) => cleanProduct(product, index + 2)); // +2: fila 1 = header, datos desde fila 2
     }
 
     async function loadProducts() {

@@ -721,8 +721,9 @@
     function parseCsv(csv) {
       const rows = csvToRows(csv);
       const headers = rows.shift().map(canonicalHeader);
-      return rows.map((row) => {
+      return rows.map((row, i) => {
         const item = {};
+        item._row = i + 2;
         headers.forEach((header, index) => {
           item[header] = normalize(row[index]);
         });
@@ -960,7 +961,7 @@
 
     function cleanProduct(product, rowIndex) {
       return {
-        _row: rowIndex,
+        _row: product._row || rowIndex, // usar el _row real del CSV si existe
         estado: product.estado,
         tipo: product.tipo || "vendedor",
         categoria: product.categoria || "Otros",

@@ -347,6 +347,64 @@
     }
     footer a { color: var(--white); font-weight: 850; }
 
+    /* ── Carrusel de fotos ── */
+    .carousel {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+    .carousel-slide {
+      display: none;
+      width: 100%;
+      height: 100%;
+    }
+    .carousel-slide.active {
+      display: block;
+    }
+    .carousel-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(23, 27, 24, 0.55);
+      border: none;
+      border-radius: 50%;
+      color: #fff;
+      cursor: pointer;
+      font-size: 1.4rem;
+      height: 36px;
+      line-height: 1;
+      width: 36px;
+      z-index: 3;
+      transition: background 0.15s;
+    }
+    .carousel-btn:hover { background: rgba(23, 27, 24, 0.85); }
+    .carousel-prev { left: 8px; }
+    .carousel-next { right: 8px; }
+    .carousel-dots {
+      position: absolute;
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 6px;
+      z-index: 3;
+    }
+    .carousel-dot {
+      background: rgba(255,255,255,0.5);
+      border-radius: 50%;
+      cursor: pointer;
+      height: 8px;
+      width: 8px;
+      transition: background 0.15s;
+    }
+    .carousel-dot.active { background: #fff; }
+
     /* ── Modal vendido ── */
     .modal-overlay {
       align-items: center;
@@ -672,7 +730,12 @@
         "descripcion corta": "descripcion",
         "link de foto del producto": "foto",
         "foto del producto": "foto",
+        "subir foto del producto": "foto",
         "imagen": "foto",
+        "foto2": "foto2",
+        "foto 2": "foto2",
+        "foto3": "foto3",
+        "foto 3": "foto3",
         "whatsapp de contacto": "whatsapp",
         "telefono": "whatsapp",
         "zona o barrio": "zona",
@@ -798,12 +861,35 @@
     }
 
     function imageMarkup(product) {
-      if (product.foto) {
-        return `<img src="${directImageUrl(product.foto)}" alt="${product.titulo}" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('span'), {className:'emoji', textContent:'🛍️'}))">`;
+      const fotos = [product.foto, product.foto2, product.foto3]
+        .filter(f => f && f.trim())
+        .map(f => directImageUrl(f));
+
+      if (fotos.length === 0) {
+        if (product.categoria.toLowerCase().includes("mascota")) return `<span class="emoji">🛏️🐕</span>`;
+        if (product.categoria.toLowerCase().includes("serv")) return `<span class="emoji">🔧</span>`;
+        return `<span class="emoji">🛍️</span>`;
       }
-      if (product.categoria.toLowerCase().includes("mascota")) return `<span class="emoji">🛏️🐕</span>`;
-      if (product.categoria.toLowerCase().includes("serv")) return `<span class="emoji">🔧</span>`;
-      return `<span class="emoji">🛍️</span>`;
+
+      if (fotos.length === 1) {
+        return `<img src="${fotos[0]}" alt="${product.titulo}" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('span'), {className:'emoji', textContent:'🛍️'}))">`;
+      }
+
+      // Carrusel para múltiples fotos
+      const id = `carousel-${Math.random().toString(36).slice(2, 8)}`;
+      const slides = fotos.map((f, i) => `
+        <div class="carousel-slide ${i === 0 ? 'active' : ''}">
+          <img src="${f}" alt="${product.titulo} foto ${i+1}" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('span'), {className:'emoji', textContent:'🛍️'}))">
+        </div>`).join("");
+      const dots = fotos.map((_, i) => `<span class="carousel-dot ${i === 0 ? 'active' : ''}" onclick="carouselGo('${id}', ${i})"></span>`).join("");
+
+      return `
+        <div class="carousel" id="${id}">
+          ${slides}
+          <button class="carousel-btn carousel-prev" onclick="carouselMove('${id}', -1)" aria-label="Anterior">&#8249;</button>
+          <button class="carousel-btn carousel-next" onclick="carouselMove('${id}', 1)" aria-label="Siguiente">&#8250;</button>
+          <div class="carousel-dots">${dots}</div>
+        </div>`;
     }
 
     function productCard(product) {
@@ -968,7 +1054,7 @@
 
     function cleanProduct(product, rowIndex) {
       return {
-        _row: product._row || rowIndex, // usar el _row real del CSV si existe
+        _row: product._row || rowIndex,
         estado: product.estado,
         tipo: product.tipo || "vendedor",
         categoria: product.categoria || "Otros",
@@ -976,6 +1062,8 @@
         descripcion: product.descripcion || "Sin descripción.",
         precio: product.precio || "Consultar",
         foto: product.foto,
+        foto2: product.foto2 || "",
+        foto3: product.foto3 || "",
         whatsapp: product.whatsapp,
         zona: product.zona,
         vendedor: product.vendedor,
@@ -1021,10 +1109,34 @@
 
     searchInput.addEventListener("input", renderProducts);
     loadProducts();
+
+    // ── Carrusel ──
+    function carouselMove(id, dir) {
+      const carousel = document.getElementById(id);
+      if (!carousel) return;
+      const slides = carousel.querySelectorAll(".carousel-slide");
+      const dots = carousel.querySelectorAll(".carousel-dot");
+      let current = [...slides].findIndex(s => s.classList.contains("active"));
+      slides[current].classList.remove("active");
+      dots[current].classList.remove("active");
+      current = (current + dir + slides.length) % slides.length;
+      slides[current].classList.add("active");
+      dots[current].classList.add("active");
+    }
+
+    function carouselGo(id, index) {
+      const carousel = document.getElementById(id);
+      if (!carousel) return;
+      const slides = carousel.querySelectorAll(".carousel-slide");
+      const dots = carousel.querySelectorAll(".carousel-dot");
+      slides.forEach(s => s.classList.remove("active"));
+      dots.forEach(d => d.classList.remove("active"));
+      slides[index].classList.add("active");
+      dots[index].classList.add("active");
+    }
   </script>
 </body>
 </html>
-
 
 
 

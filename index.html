@@ -12,7 +12,6 @@
   <meta name="author" content="Junín Conecta">
   <link rel="canonical" href="https://juninconecta.store/">
 
-  <!-- ═══ OPEN GRAPH (Facebook, WhatsApp, Instagram) ═══ -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://juninconecta.store/">
   <meta property="og:title" content="Junín Conecta Market | Comprá y Vendé en Junín, Argentina">
@@ -21,13 +20,11 @@
   <meta property="og:locale" content="es_AR">
   <meta property="og:site_name" content="Junín Conecta Market">
 
-  <!-- ═══ TWITTER / X ═══ -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Junín Conecta Market | Comprá y Vendé en Junín, Argentina">
   <meta name="twitter:description" content="Marketplace de Junín, Buenos Aires, Argentina. Publicá gratis y contactá directo por WhatsApp. Sin comisiones ni intermediarios.">
   <meta name="twitter:image" content="https://juninconecta.store/icono-512.png">
 
-  <!-- ═══ DATOS ESTRUCTURADOS (Google Rich Results) ═══ -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -68,7 +65,6 @@
   }
   </script>
 
-  <!-- FAQ: ayuda a diferenciarnos de otras marcas "Conecta Market" de Brasil, Chile o Perú -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -435,7 +431,6 @@
     }
     footer a { color: var(--white); font-weight: 850; }
 
-    /* ── Carrusel de fotos ── */
     .carousel {
       position: relative;
       width: 100%;
@@ -493,7 +488,6 @@
     }
     .carousel-dot.active { background: #fff; }
 
-    /* ── Modal vendido ── */
     .modal-overlay {
       align-items: center;
       background: rgba(23, 27, 24, 0.72);
@@ -574,7 +568,6 @@
     .btn-danger { background: #c0392b; color: var(--white); }
     .btn-danger:hover { background: #a93226; }
 
-    /* Badge vendido en cards */
     .sold-badge {
       background: rgba(192, 57, 43, 0.88);
       border-radius: 8px;
@@ -644,7 +637,6 @@
     <div class="hero-inner">
       <div>
         <span class="eyebrow">Productos, servicios y emprendedores de Junín</span>
-        <!-- TÍTULO OPTIMIZADO PARA PALABRAS CLAVE COMENTADAS -->
         <h2>Compra y Venta en Junín <br><span style="color:var(--accent);">Sin Comisiones</span></h2>
         <p>Junín Conecta Market reúne publicaciones locales de Junín, Buenos Aires, Argentina, en una sola vidriera. Encontrá clasificados, comercios y productos usados en Junín. Coordinás el pago y la entrega directo por WhatsApp con el vendedor, 100% gratis.</p>
         <div class="hero-actions">
@@ -707,7 +699,6 @@
     </div>
   </section>
 
-  <!-- Modal: marcar como vendido -->
   <div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
     <div class="modal">
       <h3 id="modalTitle">🏷️ Marcar como vendido</h3>
@@ -749,67 +740,8 @@
   </footer>
 
   <script>
-    const GOOGLE_SHEETS_GID = "815455866";
-    const GOOGLE_SHEETS_CSV_URL = `https://docs.google.com/spreadsheets/d/e/2PACX-1vSaD0ENZuTnryCil-5hfyLqczhcwZsiuEk6RgOiwwa0frF-GpU1_QKpzgDpo63R2ew_4WGMIR9Ykjav/pub?gid=${GOOGLE_SHEETS_GID}&single=true&output=csv`;
-
-    const fallbackProducts = [
-      {
-        estado: "aprobado",
-        tipo: "oficial",
-        categoria: "Mascotas",
-        titulo: "Combo Perro Feliz",
-        descripcion: "Camita Hamaca + Camita Plana. Ideal para dos ambientes o dos mascotas.",
-        precio: "$115.000",
-        foto: "",
-        whatsapp: "5492364316208",
-        zona: "Junín",
-        vendedor: "Junín Conecta",
-        link_pago: "https://mpago.la/1uVSUS4",
-        destacado: "si"
-      },
-      {
-        estado: "aprobado",
-        tipo: "oficial",
-        categoria: "Mascotas",
-        titulo: "Camita Hamaca Macramé",
-        descripcion: "Estructura en V con madera maciza y tejido colgante. Medidas 66 x 50 x 39 cm.",
-        precio: "$60.000",
-        foto: "",
-        whatsapp: "5492364316208",
-        zona: "Junín",
-        vendedor: "Junín Conecta",
-        link_pago: "https://mpago.la/1uVSUS4",
-        destacado: "no"
-      },
-      {
-        estado: "aprobado",
-        tipo: "oficial",
-        categoria: "Mascotas",
-        titulo: "Camita Plana Macramé",
-        descripcion: "Marco plano con patas desmontables y envío más económico.",
-        precio: "$65.000",
-        foto: "",
-        whatsapp: "5492364316208",
-        zona: "Junín",
-        vendedor: "Junín Conecta",
-        link_pago: "https://mpago.la/274cvM5",
-        destacado: "no"
-      },
-      {
-        estado: "aprobado",
-        tipo: "servicio",
-        categoria: "Servicios",
-        titulo: "Reparación de placas electrónicas",
-        descripcion: "Diagnóstico y reparación de placas de lavarropas, heladeras, freezers, aires y microondas.",
-        precio: "Presupuesto sin cargo",
-        foto: "",
-        whatsapp: "5492364696480",
-        zona: "Junín y región",
-        vendedor: "Eduardo",
-        link_pago: "",
-        destacado: "no"
-      }
-    ];
+    const SUPABASE_URL = "https://chtpiyddqjcpbpxpnolo.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_PqTfEpdmzLj42gBvUqM1qQ_YQQA9d0W";
 
     let products = [];
     let activeCategory = "Todas";
@@ -820,129 +752,6 @@
 
     function normalize(value) {
       return String(value || "").trim();
-    }
-
-    function stripAccents(value) {
-      return normalize(value).normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-    }
-
-    function canonicalHeader(header) {
-      const clean = stripAccents(header).toLowerCase().replace(/\s+/g, " ");
-      const aliases = {
-        "tipo de publicacion": "tipo",
-        "titulo del producto o servicio": "titulo",
-        "descripcion corta": "descripcion",
-        "link de foto del producto": "foto",
-        "foto del producto": "foto",
-        "subir foto del producto": "foto",
-        "imagen": "foto",
-        "foto2": "foto2",
-        "foto 2": "foto2",
-        "foto3": "foto3",
-        "foto 3": "foto3",
-        "whatsapp de contacto": "whatsapp",
-        "telefono": "whatsapp",
-        "zona o barrio": "zona",
-        "nombre del vendedor o emprendimiento": "vendedor",
-        "nombre del vendedor": "vendedor",
-        "mercado pago": "link_pago",
-        "link de mercado pago": "link_pago",
-        "link pago": "link_pago"
-      };
-
-      return aliases[clean] || clean.replace(/ /g, "_");
-    }
-
-    function csvToRows(csv) {
-      const rows = [];
-      let current = "";
-      let row = [];
-      let insideQuotes = false;
-
-      for (let i = 0; i < csv.length; i += 1) {
-        const char = csv[i];
-        const next = csv[i + 1];
-
-        if (char === '"' && next === '"') {
-          current += '"';
-          i += 1;
-        } else if (char === '"') {
-          insideQuotes = !insideQuotes;
-        } else if (char === "," && !insideQuotes) {
-          row.push(current);
-          current = "";
-        } else if ((char === "\n" || char === "\r") && !insideQuotes) {
-          if (current || row.length) {
-            row.push(current);
-            rows.push(row);
-            row = [];
-            current = "";
-          }
-          if (char === "\r" && next === "\n") i += 1;
-        } else {
-          current += char;
-        }
-      }
-
-      if (current || row.length) {
-        row.push(current);
-        rows.push(row);
-      }
-
-      return rows;
-    }
-
-    function parseCsv(csv) {
-      const rows = csvToRows(csv);
-      const headers = rows.shift().map(canonicalHeader);
-      return rows.map((row, i) => {
-        const item = {};
-        item._row = i + 2;
-        headers.forEach((header, index) => {
-          item[header] = normalize(row[index]);
-        });
-        return item;
-      });
-    }
-
-    function gvizUrl() {
-      return `${GOOGLE_SHEETS_CSV_URL.split("/pub?")[0]}/gviz/tq?gid=${GOOGLE_SHEETS_GID}`;
-    }
-
-    function loadGoogleSheetJsonp() {
-      return new Promise((resolve, reject) => {
-        const callbackName = `marketSheetCallback_${Date.now()}`;
-        const script = document.createElement("script");
-
-        window[callbackName] = (data) => {
-          delete window[callbackName];
-          script.remove();
-
-          try {
-            const headers = data.table.cols.map((col) => canonicalHeader(col.label));
-            const items = data.table.rows.map((row) => {
-              const item = {};
-              headers.forEach((header, index) => {
-                const cell = row.c[index];
-                item[header] = normalize(cell && (cell.f || cell.v));
-              });
-              return item;
-            });
-            resolve(items);
-          } catch (error) {
-            reject(error);
-          }
-        };
-
-        script.onerror = () => {
-          delete window[callbackName];
-          script.remove();
-          reject(new Error("No se pudo cargar Google Sheets por lectura alternativa."));
-        };
-
-        script.src = `${gvizUrl()}&tqx=out:json;responseHandler:${callbackName}`;
-        document.body.appendChild(script);
-      });
     }
 
     function whatsappLink(product) {
@@ -979,7 +788,6 @@
         return `<img src="${fotos[0]}" alt="${product.titulo}" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('span'), {className:'emoji', textContent:'🛍️'}))">`;
       }
 
-      // Carrusel para múltiples fotos
       const id = `carousel-${Math.random().toString(36).slice(2, 8)}`;
       const slides = fotos.map((f, i) => `
         <div class="carousel-slide ${i === 0 ? 'active' : ''}">
@@ -1006,7 +814,6 @@
       const isOfficial = normalize(product.tipo).toLowerCase() === "oficial";
       const isVendido = normalize(product.estado).toLowerCase() === "vendido";
 
-      // Mercado Pago solo para productos oficiales (tuyos)
       const paymentButton = (isOfficial && product.link_pago)
         ? `<a class="btn btn-mp" href="${product.link_pago}" target="_blank" rel="noopener">Comprar por Mercado Pago</a>`
         : "";
@@ -1078,13 +885,11 @@
       grid.innerHTML = visible.map(productCard).join("");
       emptyState.style.display = visible.length ? "none" : "block";
 
-      // Bind "marcar como vendido" buttons
       grid.querySelectorAll(".mark-sold-btn").forEach((btn) => {
         btn.addEventListener("click", () => openModal(btn.dataset.titulo, btn.dataset.row));
       });
     }
 
-    // ── PIN Modal ──
     const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby1FGz_6KadxE35zO9wPpRGo0OC3GciceCEoVKl9lxvYV_5ojiFJzAtHDGCLmLmumDU/exec";
 
     const overlay   = document.getElementById("modalOverlay");
@@ -1113,7 +918,6 @@
       currentRow = null;
     }
 
-    // Auto-avanzar entre dígitos
     pinDigits.forEach((digit, i) => {
       digit.addEventListener("input", () => {
         digit.value = digit.value.replace(/\D/g, "").slice(-1);
@@ -1166,54 +970,35 @@
       modalMsg.className = `modal-msg ${type}`;
     }
 
-    function cleanProduct(product, rowIndex) {
-      return {
-        _row: product._row || rowIndex,
-        estado: product.estado,
-        tipo: product.tipo || "vendedor",
-        categoria: product.categoria || "Otros",
-        titulo: product.titulo || "Producto sin título",
-        descripcion: product.descripcion || "Sin descripción.",
-        precio: product.precio || "Consultar",
-        foto: product.foto,
-        foto2: product.foto2 || "",
-        foto3: product.foto3 || "",
-        whatsapp: product.whatsapp,
-        zona: product.zona,
-        vendedor: product.vendedor,
-        link_pago: product.link_pago,
-        destacado: product.destacado
-      };
-    }
-
-    function approvedProducts(items) {
-      return items
-        .filter((product) => {
-          const estado = normalize(product.estado).toLowerCase();
-          return estado === "aprobado" || estado === "publicado" || estado === "si" || estado === "vendido";
-        })
-        .map((product, index) => cleanProduct(product, index + 2)); // +2: fila 1 = header, datos desde fila 2
-    }
-
     async function loadProducts() {
-      products = fallbackProducts;
-
-      if (GOOGLE_SHEETS_CSV_URL) {
-        try {
-          const response = await fetch(GOOGLE_SHEETS_CSV_URL);
-          const csv = await response.text();
-          const sheetProducts = approvedProducts(parseCsv(csv));
-
-          if (sheetProducts.length) products = sheetProducts;
-        } catch (error) {
-          console.warn("No se pudo cargar el CSV de Google Sheets. Probando lectura alternativa.", error);
-          try {
-            const sheetProducts = approvedProducts(await loadGoogleSheetJsonp());
-            if (sheetProducts.length) products = sheetProducts;
-          } catch (fallbackError) {
-            console.warn("No se pudo cargar Google Sheets. Se muestran productos de respaldo.", fallbackError);
+      try {
+        const response = await fetch(`${SUPABASE_URL}/rest/v1/productos?select=*`, {
+          headers: {
+            "apikey": SUPABASE_KEY,
+            "Authorization": `Bearer ${SUPABASE_KEY}`
           }
-        }
+        });
+        const data = await response.json();
+        products = data.map(p => ({
+          _row: p.id,
+          estado: p.estado,
+          tipo: p.tipo || "vendedor",
+          categoria: p.categoria || "Otros",
+          titulo: p.titulo || "Producto sin título",
+          descripcion: p.descripcion || "Sin descripción.",
+          precio: p.precio || "Consultar",
+          foto: p.foto,
+          foto2: p.foto2 || "",
+          foto3: p.foto3 || "",
+          whatsapp: p.whatsapp,
+          zona: p.zona,
+          vendedor: p.vendedor,
+          link_pago: p.link_pago,
+          destacado: p.destacado
+        }));
+      } catch (error) {
+        console.error("No se pudieron cargar los productos desde Supabase.", error);
+        products = [];
       }
 
       products.sort((a, b) => normalize(b.destacado).localeCompare(normalize(a.destacado)));
@@ -1224,7 +1009,6 @@
     searchInput.addEventListener("input", renderProducts);
     loadProducts();
 
-    // ── Carrusel ──
     function carouselMove(id, dir) {
       const carousel = document.getElementById(id);
       if (!carousel) return;

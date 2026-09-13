@@ -807,13 +807,13 @@
         <div class="carousel-slide ${i === 0 ? 'active' : ''}">
           <img src="${f}" alt="${product.titulo} foto ${i+1}" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('span'), {className:'emoji', textContent:'🛍️'}))">
         </div>`).join("");
-      const dots = fotos.map((_, i) => `<span class="carousel-dot ${i === 0 ? 'active' : ''}" onclick="carouselGo('${id}', ${i})"></span>`).join("");
+      const dots = fotos.map((_, i) => `<span class="carousel-dot ${i === 0 ? 'active' : ''}" onclick="event.stopPropagation(); carouselGo('${id}', ${i})"></span>`).join("");
 
       return `
         <div class="carousel" id="${id}">
           ${slides}
-          <button class="carousel-btn carousel-prev" onclick="carouselMove('${id}', -1)" aria-label="Anterior">&#8249;</button>
-          <button class="carousel-btn carousel-next" onclick="carouselMove('${id}', 1)" aria-label="Siguiente">&#8250;</button>
+          <button class="carousel-btn carousel-prev" onclick="event.stopPropagation(); carouselMove('${id}', -1)" aria-label="Anterior">&#8249;</button>
+          <button class="carousel-btn carousel-next" onclick="event.stopPropagation(); carouselMove('${id}', 1)" aria-label="Siguiente">&#8250;</button>
           <div class="carousel-dots">${dots}</div>
         </div>`;
     }
@@ -956,17 +956,26 @@
       modalConfirm.textContent = "Verificando…";
 
       try {
-        const res = await fetch(APPS_SCRIPT_URL, {
-          method: "POST",
-          body: JSON.stringify({ accion: "marcarVendido", row: currentRow, pin, titulo: currentTitulo }),
-        });
+        const res = await fetch(
+          `${SUPABASE_URL}/rest/v1/productos?id=eq.${currentRow}&pin=eq.${pin}`,
+          {
+            method: "PATCH",
+            headers: {
+              "apikey": SUPABASE_KEY,
+              "Authorization": `Bearer ${SUPABASE_KEY}`,
+              "Content-Type": "application/json",
+              "Prefer": "return=representation"
+            },
+            body: JSON.stringify({ estado: "vendido" })
+          }
+        );
         const data = await res.json();
 
-        if (data.ok) {
-          showMsg("✅ ¡Publicación marcada como vendida! Te avisamos al administrador.", "success");
+        if (res.ok && Array.isArray(data) && data.length > 0) {
+          showMsg("✅ ¡Publicación marcada como vendida!", "success");
           setTimeout(() => { closeModal(); loadProducts(); }, 2200);
         } else {
-          showMsg(data.mensaje || "PIN incorrecto. Intentá de nuevo.", "error");
+          showMsg("PIN incorrecto. Intentá de nuevo.", "error");
           pinDigits.forEach((d) => d.classList.add("error"));
           setTimeout(() => pinDigits.forEach((d) => { d.classList.remove("error"); d.value = ""; }), 700);
           pinDigits[0].focus();

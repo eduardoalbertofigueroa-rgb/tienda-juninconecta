@@ -688,6 +688,11 @@
     <div class="empty" id="emptyState">No encontramos publicaciones con ese filtro.</div>
   </main>
 
+  <main id="detalle" style="display:none;">
+    <a href="#" id="volverCatalogo" class="btn btn-soft" style="margin-bottom:24px;">&larr; Volver al catálogo</a>
+    <div class="grid" id="detalleGrid" style="grid-template-columns: 1fr;"></div>
+  </main>
+
   <section class="how" id="publicar">
     <div class="how-inner">
       <article class="step">
@@ -842,14 +847,14 @@
 
       return `
         <article class="product ${isFeatured ? "featured" : ""}">
-          <div class="media">
+          <div class="media" onclick="goToProduct('${product._row}')" style="cursor:pointer;">
             ${imageMarkup(product)}
             <span class="tag">${isOfficial ? "Oficial" : product.categoria}</span>
             ${soldBadge}
           </div>
           <div class="content">
             <span class="meta">${product.categoria} · ${isOfficial ? "Junín Conecta" : "Vendedor local"}</span>
-            <h3>${product.titulo}</h3>
+            <h3 onclick="goToProduct('${product._row}')" style="cursor:pointer;">${product.titulo}</h3>
             <p>${product.descripcion}</p>
             <div class="details">
               <span>📍 ${product.zona || "Zona a coordinar"}</span>
@@ -1013,10 +1018,60 @@
       products.sort((a, b) => normalize(b.destacado).localeCompare(normalize(a.destacado)));
       renderFilters();
       renderProducts();
+      abrirDesdeUrl();
     }
 
     searchInput.addEventListener("input", renderProducts);
     loadProducts();
+
+    /* ===== VISTA DE DETALLE (link directo por publicación) ===== */
+    const catalogoMain = document.getElementById("catalogo");
+    const detalleMain = document.getElementById("detalle");
+    const detalleGrid = document.getElementById("detalleGrid");
+
+    function goToProduct(id) {
+      const url = new URL(window.location.href);
+      url.searchParams.set("p", id);
+      history.pushState({ p: id }, "", url);
+      mostrarDetalle(id);
+    }
+
+    function volverAlCatalogo() {
+      const url = new URL(window.location.href);
+      url.searchParams.delete("p");
+      history.pushState({}, "", url);
+      detalleMain.style.display = "none";
+      catalogoMain.style.display = "block";
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function mostrarDetalle(id) {
+      const product = products.find(p => String(p._row) === String(id));
+      if (!product) {
+        volverAlCatalogo();
+        return;
+      }
+      detalleGrid.innerHTML = productCard(product);
+      catalogoMain.style.display = "none";
+      detalleMain.style.display = "block";
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function abrirDesdeUrl() {
+      const id = new URLSearchParams(window.location.search).get("p");
+      if (id) mostrarDetalle(id);
+    }
+
+    document.getElementById("volverCatalogo").addEventListener("click", (e) => {
+      e.preventDefault();
+      volverAlCatalogo();
+    });
+
+    window.addEventListener("popstate", () => {
+      const id = new URLSearchParams(window.location.search).get("p");
+      if (id) mostrarDetalle(id);
+      else volverAlCatalogo();
+    });
 
     function carouselMove(id, dir) {
       const carousel = document.getElementById(id);

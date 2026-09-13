@@ -10,6 +10,24 @@
     gtag('config', 'G-KJSSQT1Z40');
   </script>
 
+  <!-- Meta Pixel -->
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1399172012316175');
+    fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1399172012316175&ev=PageView&noscript=1"
+  /></noscript>
+  <!-- Fin Meta Pixel -->
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -829,7 +847,7 @@
       const isVendido = normalize(product.estado).toLowerCase() === "vendido";
 
       const paymentButton = (isOfficial && product.link_pago)
-        ? `<a class="btn btn-mp" href="${product.link_pago}" target="_blank" rel="noopener">Comprar por Mercado Pago</a>`
+        ? `<a class="btn btn-mp" href="${product.link_pago}" target="_blank" rel="noopener" onclick="if(window.fbq) fbq('track','InitiateCheckout',{content_name:'${product.titulo.replace(/'/g, "\\'")}'})">Comprar por Mercado Pago</a>`
         : "";
 
       const soldBadge = isVendido ? `<span class="sold-badge">Vendido</span>` : "";
@@ -838,7 +856,7 @@
         : "";
 
       const waBtn = !isVendido
-        ? `<a class="btn btn-wa" href="${whatsappLink(product)}" target="_blank" rel="noopener">Consultar por WhatsApp</a>`
+        ? `<a class="btn btn-wa" href="${whatsappLink(product)}" target="_blank" rel="noopener" onclick="if(window.fbq) fbq('track','Contact',{content_name:'${product.titulo.replace(/'/g, "\\'")}'})">Consultar por WhatsApp</a>`
         : `<span style="color:var(--muted);font-size:0.9rem;text-align:center">Esta publicación ya fue vendida.</span>`;
 
       const reportBtn = !isOfficial
@@ -1064,6 +1082,15 @@
       catalogoMain.style.display = "none";
       detalleMain.style.display = "block";
       window.scrollTo({ top: 0, behavior: "smooth" });
+
+      if (window.fbq) {
+        fbq('track', 'ViewContent', {
+          content_name: product.titulo,
+          content_category: product.categoria,
+          value: parseFloat(String(product.precio).replace(/[^0-9.,]/g, "").replace(",", ".")) || undefined,
+          currency: 'ARS'
+        });
+      }
     }
 
     function abrirDesdeUrl() {

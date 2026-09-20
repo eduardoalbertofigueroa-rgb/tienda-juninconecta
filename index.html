@@ -754,7 +754,7 @@
     </div>
   </div>
 
-  <a class="floating-wa" href="https://wa.me/5492364696480?text=Hola%20Eduardo%2C%20quiero%20consultar%20por%20Jun%C3%ADn%20Conecta%20Market" target="_blank" rel="noopener">💬 WhatsApp</a>
+  <a class="floating-wa" id="floatingWa" href="https://wa.me/5492364696480?text=Hola%20Eduardo%2C%20quiero%20consultar%20por%20Jun%C3%ADn%20Conecta%20Market" target="_blank" rel="noopener">💬 WhatsApp</a>
 
   <section class="how" id="terminos" style="background:var(--soft); border-top:1px solid var(--line);">
     <div class="how-inner" style="grid-template-columns:1fr; max-width:820px; margin:0 auto;">
@@ -777,7 +777,7 @@
 
   <script>
     /* ===== Si el link ya trae ?p=<id>, ocultar todo lo que no sea la publicación ANTES de que se vea nada ===== */
-    const sectionsToHideOnDetail = ["noticeBar", "inicio", "featureRow", "publicar", "terminos", "siteFooter"];
+    const sectionsToHideOnDetail = ["noticeBar", "inicio", "featureRow", "publicar", "terminos", "siteFooter", "floatingWa"];
     const idDesdeUrlInicial = new URLSearchParams(window.location.search).get("p");
     if (idDesdeUrlInicial) {
       sectionsToHideOnDetail.forEach((id) => {

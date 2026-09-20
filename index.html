@@ -139,6 +139,7 @@
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
+    .hide-on-detail { display: none !important; }
     body {
       background: var(--paper);
       color: var(--ink);
@@ -647,7 +648,7 @@
   </style>
 </head>
 <body>
-  <div class="notice"><strong>Vidriera local:</strong> cada compra se coordina directamente con el vendedor.</div>
+  <div class="notice" id="noticeBar"><strong>Vidriera local:</strong> cada compra se coordina directamente con el vendedor.</div>
 
   <header>
     <nav class="nav" aria-label="Navegación principal">
@@ -681,7 +682,7 @@
     </div>
   </section>
 
-  <div class="feature-row">
+  <div class="feature-row" id="featureRow">
     <div class="feature-track">
       <span>🛍️ Clasificados y Productos locales</span>
       <span>📍 Zona o barrio de Junín visible</span>
@@ -769,12 +770,25 @@
     </div>
   </section>
 
-  <footer>
+  <footer id="siteFooter">
     <p>© 2026 <a href="https://juninconecta.com.ar">Junín Conecta Market</a> · Vidriera local de Junín y la zona</p>
     <p>Junín Conecta Market es una vidriera local. Cada compra se coordina directamente con el vendedor. <a href="#terminos">Ver términos completos</a>.</p>
   </footer>
 
   <script>
+    /* ===== Si el link ya trae ?p=<id>, ocultar todo lo que no sea la publicación ANTES de que se vea nada ===== */
+    const sectionsToHideOnDetail = ["noticeBar", "inicio", "featureRow", "publicar", "terminos", "siteFooter"];
+    const idDesdeUrlInicial = new URLSearchParams(window.location.search).get("p");
+    if (idDesdeUrlInicial) {
+      sectionsToHideOnDetail.forEach((id) => {
+        const el = document.getElementById(id);
+        if (el) el.classList.add("hide-on-detail");
+      });
+      document.getElementById("catalogo").classList.add("hide-on-detail");
+      document.getElementById("detalle").style.display = "block";
+      document.getElementById("detalleGrid").innerHTML = "<p style='padding:40px 0;text-align:center;color:var(--muted);'>Cargando publicación…</p>";
+    }
+
     const SUPABASE_URL = "https://chtpiyddqjcpbpxpnolo.supabase.co";
     const SUPABASE_KEY = "sb_publishable_PqTfEpdmzLj42gBvUqM1qQ_YQQA9d0W";
 
@@ -1071,7 +1085,12 @@
       url.searchParams.delete("p");
       history.pushState({}, "", url);
       detalleMain.style.display = "none";
+      catalogoMain.classList.remove("hide-on-detail");
       catalogoMain.style.display = "block";
+      sectionsToHideOnDetail.forEach((id) => {
+        const el = document.getElementById(id);
+        if (el) el.classList.remove("hide-on-detail");
+      });
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
@@ -1082,7 +1101,12 @@
         return;
       }
       detalleGrid.innerHTML = productCard(product);
+      catalogoMain.classList.add("hide-on-detail");
       catalogoMain.style.display = "none";
+      sectionsToHideOnDetail.forEach((id) => {
+        const el = document.getElementById(id);
+        if (el) el.classList.add("hide-on-detail");
+      });
       detalleMain.style.display = "block";
       window.scrollTo({ top: 0, behavior: "smooth" });
 

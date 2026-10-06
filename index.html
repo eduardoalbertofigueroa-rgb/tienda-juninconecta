@@ -815,7 +815,7 @@
       transform: translateY(-2px);
       box-shadow: var(--shadow);
     }
-    .step strong {
+    .step-num {
       color: var(--primary);
       display: flex;
       align-items: center;
@@ -839,6 +839,34 @@
       color: var(--muted);
       font-size: 0.9rem;
       line-height: 1.55;
+    }
+
+    /* ─── Terms block ─── */
+    .terms-block {
+      background: var(--white);
+      border: 1px solid rgba(31, 77, 50, 0.07);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+      padding: 32px 28px;
+      text-align: left;
+    }
+    .terms-block h3 {
+      color: var(--primary-dark);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 750;
+      margin-bottom: 18px;
+    }
+    .terms-block p {
+      color: var(--muted);
+      font-size: 0.92rem;
+      line-height: 1.65;
+      margin-bottom: 14px;
+    }
+    .terms-block p:last-child { margin-bottom: 0; }
+    .terms-block strong {
+      color: var(--primary-dark);
+      font-weight: 700;
     }
 
     /* ─── Floating WA ─── */
@@ -1238,17 +1266,17 @@
   <section class="how" id="publicar">
     <div class="how-inner">
       <article class="step">
-        <strong>1</strong>
+        <span class="step-num">1</span>
         <h3>Completás el formulario</h3>
         <p>Cargás título, precio, foto, zona, descripción y WhatsApp de contacto.</p>
       </article>
       <article class="step">
-        <strong>2</strong>
+        <span class="step-num">2</span>
         <h3>Se revisa la publicación</h3>
         <p>Junín Conecta aprueba lo que esté completo y sea apto para la vidriera.</p>
       </article>
       <article class="step">
-        <strong>3</strong>
+        <span class="step-num">3</span>
         <h3>Te escriben directo</h3>
         <p>El interesado toca el botón de WhatsApp y coordina la compra con vos.</p>
       </article>
@@ -1278,13 +1306,13 @@
 
   <section class="how" id="terminos" style="background:var(--soft); border-top:1px solid var(--line);">
     <div class="how-inner" style="grid-template-columns:1fr; max-width:820px; margin:0 auto;">
-      <article class="step" style="text-align:left;">
-        <h3 style="margin-bottom:14px;">Términos y condiciones de uso</h3>
-        <p style="margin-bottom:10px;"><strong>Qué es Junín Conecta Market.</strong> Es una vidriera digital que muestra publicaciones de productos y servicios de vendedores locales de Junín y la región. Junín Conecta ordena, muestra y modera el contenido, pero <strong>no participa en la compraventa</strong>: no cobra comisión, no procesa pagos de terceros y no interviene en la entrega.</p>
-        <p style="margin-bottom:10px;"><strong>Qué revisa Junín Conecta antes de publicar.</strong> Cada publicación pasa por una revisión manual antes de aparecer en el sitio, para descartar spam, contenido inapropiado o datos incompletos. Esta revisión <strong>no es una garantía</strong> sobre la calidad del producto, la veracidad de lo publicado ni el cumplimiento del vendedor. Verificá vos mismo el estado y las condiciones antes de acordar una compra.</p>
-        <p style="margin-bottom:10px;"><strong>Cómo se coordina la compra.</strong> El contacto, el pago y la entrega se coordinan siempre de forma directa entre comprador y vendedor por WhatsApp, fuera de la plataforma. Junín Conecta no participa en esa conversación ni en la transacción.</p>
-        <p style="margin-bottom:10px;"><strong>Excepción: productos oficiales.</strong> Las publicaciones marcadas como "Oficial" son vendidas directamente por Junín Conecta y sí incluyen pago por Mercado Pago. Todo lo demás lo publican vendedores independientes y es responsabilidad exclusiva de cada uno.</p>
-        <p style="margin-bottom:10px;"><strong>Recomendaciones de seguridad.</strong> Antes de pagar, coordiná la entrega en un lugar público si es posible, verificá el estado del producto en persona y desconfiá de precios demasiado bajos o pagos anticipados sin garantías.</p>
+      <article class="terms-block">
+        <h3>Términos y condiciones de uso</h3>
+        <p><strong>Qué es Junín Conecta Market.</strong> Es una vidriera digital que muestra publicaciones de productos y servicios de vendedores locales de Junín y la región. Junín Conecta ordena, muestra y modera el contenido, pero <strong>no participa en la compraventa</strong>: no cobra comisión, no procesa pagos de terceros y no interviene en la entrega.</p>
+        <p><strong>Qué revisa Junín Conecta antes de publicar.</strong> Cada publicación pasa por una revisión manual antes de aparecer en el sitio, para descartar spam, contenido inapropiado o datos incompletos. Esta revisión <strong>no es una garantía</strong> sobre la calidad del producto, la veracidad de lo publicado ni el cumplimiento del vendedor. Verificá vos mismo el estado y las condiciones antes de acordar una compra.</p>
+        <p><strong>Cómo se coordina la compra.</strong> El contacto, el pago y la entrega se coordinan siempre de forma directa entre comprador y vendedor por WhatsApp, fuera de la plataforma. Junín Conecta no participa en esa conversación ni en la transacción.</p>
+        <p><strong>Excepción: productos oficiales.</strong> Las publicaciones marcadas como "Oficial" son vendidas directamente por Junín Conecta y sí incluyen pago por Mercado Pago. Todo lo demás lo publican vendedores independientes y es responsabilidad exclusiva de cada uno.</p>
+        <p><strong>Recomendaciones de seguridad.</strong> Antes de pagar, coordiná la entrega en un lugar público si es posible, verificá el estado del producto en persona y desconfiá de precios demasiado bajos o pagos anticipados sin garantías.</p>
         <p><strong>Reportar un problema.</strong> Si algo te parece sospechoso o tuviste un inconveniente con una publicación, escribinos por WhatsApp y lo revisamos.</p>
       </article>
     </div>
